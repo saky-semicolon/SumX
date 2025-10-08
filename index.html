@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SumX - Research Paper Summarizer</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🔬 SumX</h1>
+            <p class="subtitle">AI-Powered Research Paper Summarizer</p>
+            <p class="description">Upload your research paper to get a structured academic summary powered by AI</p>
+        </header>
+        
+        <div class="upload-section">
+            <div class="research-visualization">
+                <div class="molecule-animation">
+                    <div class="molecule">
+                        <div class="atom atom-1"></div>
+                        <div class="atom atom-2"></div>
+                        <div class="atom atom-3"></div>
+                        <div class="bond bond-1"></div>
+                        <div class="bond bond-2"></div>
+                        <div class="bond bond-3"></div>
+                    </div>
+                </div>
+                <div class="research-icons">
+                    <div class="research-icon">🧬</div>
+                    <div class="research-icon">🔬</div>
+                    <div class="research-icon">📊</div>
+                    <div class="research-icon">⚗️</div>
+                    <div class="research-icon">📈</div>
+                    <div class="research-icon">🧪</div>
+                </div>
+            </div>
+            
+            <div class="upload-container">
+                <div class="file-upload-area" id="file-upload">
+                    <div class="upload-content">
+                        <div class="upload-icon-large">📄</div>
+                        <h3 class="upload-title">Upload Research Paper</h3>
+                        <p class="upload-description">
+                            Drop your PDF or text file here, or click to browse
+                        </p>
+                        <div class="supported-formats">
+                            <span class="format-badge">PDF</span>
+                            <span class="format-badge">TXT</span>
+                        </div>
+                        <div class="upload-features">
+                            <div class="feature">🔍 Advanced PDF text extraction</div>
+                            <div class="feature">🤖 AI-powered analysis</div>
+                            <div class="feature">📋 Structured summaries</div>
+                        </div>
+                        <button class="browse-btn" onclick="document.getElementById('file-input').click()">
+                            Choose File
+                        </button>
+                    </div>
+                    <input type="file" id="file-input" accept=".pdf,.txt" hidden>
+                </div>
+                
+                <div id="file-info" class="file-info-card hidden">
+                    <div class="file-preview">
+                        <!-- File information will be populated here -->
+                    </div>
+                </div>
+                
+                <div id="extracted-content" class="extracted-content-area hidden">
+                    <div class="content-header">
+                        <h4>📄 Extracted Content</h4>
+                        <span class="word-count" id="word-count">0 words</span>
+                    </div>
+                    <div class="content-preview" id="content-preview">
+                        <!-- Extracted text preview will appear here -->
+                    </div>
+                    <textarea id="paper-content" class="hidden"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="options-section">
+            <div class="option-group">
+                <label for="language-select">Output Language:</label>
+                <select id="language-select">
+                    <option value="English">English</option>
+                    <option value="Spanish">Español</option>
+                    <option value="French">Français</option>
+                    <option value="German">Deutsch</option>
+                    <option value="Chinese">中文</option>
+                    <option value="Japanese">日本語</option>
+                    <option value="Portuguese">Português</option>
+                    <option value="Russian">Русский</option>
+                </select>
+            </div>
+        </div>
+
+        <button id="summarize-btn" class="summarize-btn" disabled>
+            <span class="btn-text">Analyze Research Paper</span>
+            <span class="btn-loader hidden">🔄 Processing...</span>
+        </button>
+
+        <div class="summary-section">
+            <div class="summary-header">
+                <h2>📋 Academic Summary</h2>
+                <div class="summary-actions">
+                    <button id="copy-btn" class="action-btn" title="Copy to clipboard" disabled>📋</button>
+                    <button id="download-btn" class="action-btn" title="Download as Markdown" disabled>💾</button>
+                </div>
+            </div>
+            <div class="summary-container">
+                <div id="summary-output" class="summary-output">
+                    <div class="placeholder">
+                        <div class="placeholder-icon">🔬</div>
+                        <h3>Ready to analyze your research paper</h3>
+                        <p>Upload a PDF or text file and click "Analyze Research Paper" to get a structured summary with:</p>
+                        <ul>
+                            <li>✅ Title & Authors</li>
+                            <li>✅ Abstract Summary</li>
+                            <li>✅ Methodology</li>
+                            <li>✅ Key Findings & Results</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>Powered by Llama 3.2 AI via OpenRouter • Built for researchers and students</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.2/marked.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
