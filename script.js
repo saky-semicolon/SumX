@@ -174,13 +174,13 @@ function updateSummarizeButton() {
     // Update button text based on content
     const btnText = document.querySelector('.btn-text');
     if (content.length === 0) {
-        btnText.textContent = 'Analyze Research Paper';
+        btnText.textContent = 'Deep Analysis & Mind Map';
     } else if (content.length < 100) {
         btnText.textContent = `Need ${100 - content.length} more characters`;
     } else if (wordCount < 50) {
         btnText.textContent = `Need ${50 - wordCount} more words`;
     } else {
-        btnText.textContent = `Analyze Paper (${wordCount} words)`;
+        btnText.textContent = `Analyze & Map (${wordCount} words)`;
     }
 }
 
@@ -249,9 +249,9 @@ summarizeBtn.addEventListener('click', async () => {
         
         // Show success with metadata
         if (data.metadata) {
-            showSuccess(`✅ Analysis complete! Processed ${data.metadata.inputLength} characters using ${data.metadata.model}`);
+            showSuccess(`✅ Deep analysis complete! Generated comprehensive summary and mind map using ${data.metadata.model}`);
         } else {
-            showSuccess('✅ Research paper analysis completed successfully!');
+            showSuccess('✅ Comprehensive research analysis and mind map generation completed!');
         }
         
     } catch (error) {
@@ -281,7 +281,7 @@ function setLoadingState(loading) {
         btnText.classList.add('hidden');
         btnLoader.classList.remove('hidden');
         summarizeBtn.disabled = true;
-        summaryOutput.innerHTML = '<div class="loading">🔄 Analyzing your research paper...</div>';
+        summaryOutput.innerHTML = '<div class="loading">🔄 Performing deep analysis and generating mind map...</div>';
     } else {
         btnText.classList.remove('hidden');
         btnLoader.classList.add('hidden');

@@ -70,46 +70,119 @@ const cleanPaperText = (text) => {
 const createResearchPaperPrompt = (paperContent, language = 'English') => {
     const cleanedContent = cleanPaperText(paperContent);
     
-    return `You are SumX — an expert AI assistant specialized in analyzing research papers with high accuracy.
+    return `You are SumX — an elite AI research analyst with expertise in academic paper evaluation, critical analysis, and knowledge synthesis. Your task is to perform a comprehensive, deep analysis of research papers with scholarly rigor.
 
-TASK: Create a structured academic summary from the provided research paper content.
+MISSION: Conduct a thorough academic analysis and create a structured summary with critical insights and a comprehensive mind map.
 
-OUTPUT FORMAT (use this exact structure):
+OUTPUT FORMAT (follow this exact structure):
 
-# Title
-[Extract and clearly state the paper's main title]
+# 📊 COMPREHENSIVE RESEARCH ANALYSIS
 
-## Authors & Affiliations  
-[List all authors with their institutional affiliations. If unclear, extract what's available]
+## 🎯 Paper Title & Classification
+[Extract the complete title and classify the research type: Experimental, Theoretical, Review, Meta-analysis, Case Study, etc.]
 
-## Abstract Summary
-[Provide a clear, concise summary of the research purpose, scope, and main objectives]
+## 👥 Research Team & Institutional Context
+[List authors with their full affiliations, expertise areas, and institutional prestige. Identify lead researchers and collaborative patterns.]
 
-## Methodology
-[Describe in detail:
-- Research design and approach
-- Data collection methods  
-- Sample size and selection criteria
-- Analytical techniques and tools used
-- Experimental procedures if applicable]
+## 🔍 Research Objective & Significance
+[Analyze and synthesize:
+- Primary research question and hypotheses
+- Research gap being addressed
+- Significance to the field
+- Novel contributions and innovation level
+- Potential impact on existing knowledge]
 
-## Key Findings / Results
-[Present the main discoveries:
-- Primary results and outcomes
-- Statistical findings with numbers/percentages when provided
-- Key conclusions and implications
-- Significant patterns or trends identified]
+## 🧪 Methodological Framework
+[Provide detailed analytical breakdown:
+- Research design philosophy and rationale
+- Data collection strategies and validation methods
+- Sample characteristics: size, selection criteria, demographics
+- Analytical techniques: statistical methods, software tools, algorithms
+- Quality control measures and bias mitigation
+- Limitations and potential confounding factors
+- Reproducibility assessment]
 
-IMPORTANT GUIDELINES:
-✓ Extract information ONLY from the provided text - never fabricate data
-✓ If text appears garbled from PDF extraction, interpret context intelligently  
-✓ Use clear, academic language appropriate for researchers
-✓ Include specific numbers, percentages, and statistical data when mentioned
-✓ If any section cannot be determined from the text, state "Information not clearly provided in the source material"
-✓ Maintain factual accuracy above all else
-${language !== 'English' ? `✓ Translate the final summary to ${language} while preserving technical accuracy` : ''}
+## 📈 Results & Statistical Analysis
+[Comprehensive findings analysis:
+- Primary outcomes with statistical significance levels
+- Secondary findings and unexpected results
+- Effect sizes, confidence intervals, p-values
+- Data visualization and pattern interpretation
+- Comparative analysis with existing literature
+- Statistical power and clinical/practical significance]
 
-RESEARCH PAPER CONTENT TO ANALYZE:
+## 💡 Critical Evaluation & Implications
+[Scholarly assessment including:
+- Strengths and weaknesses of the study
+- Validity of conclusions drawn
+- Generalizability and external validity
+- Theoretical and practical implications
+- Future research directions suggested
+- Policy or practice recommendations]
+
+## 🌐 Contextual Integration
+[Position within broader field:
+- Relationship to existing research paradigms
+- Confirmation or challenge to current theories
+- Cross-disciplinary connections
+- Evolution of research in this area]
+
+## 🗺️ RESEARCH MIND MAP
+
+\`\`\`
+                    📊 [PAPER TITLE]
+                           |
+        ┌─────────────────┼─────────────────┐
+        │                 │                 │
+    🎯 OBJECTIVES    🧪 METHODS      📈 RESULTS
+        │                 │                 │
+    ┌───┼───┐         ┌───┼───┐         ┌───┼───┐
+    │   │   │         │   │   │         │   │   │
+   Q1  Q2  Q3      DATA ANAL VALID    R1  R2  R3
+                      │    │    │
+                   COLLECT TECH QUAL
+                      │    │    │
+                   [Details for each branch...]
+
+DETAILED CONNECTIONS:
+├── 🎯 Research Objectives
+│   ├── Primary Question: [Main research question]
+│   ├── Secondary Questions: [Supporting questions]
+│   └── Hypotheses: [Tested hypotheses]
+│
+├── 🧪 Methodology
+│   ├── Design: [Research approach]
+│   ├── Data Collection: [Methods and sources]
+│   ├── Analysis: [Statistical/analytical methods]
+│   └── Validation: [Quality assurance]
+│
+├── 📈 Key Results
+│   ├── Primary Findings: [Main outcomes]
+│   ├── Statistical Significance: [P-values, CI]
+│   └── Effect Sizes: [Practical significance]
+│
+├── 💡 Implications
+│   ├── Theoretical: [Knowledge contribution]
+│   ├── Practical: [Real-world applications]
+│   └── Future Research: [Next steps]
+│
+└── 🌐 Context & Impact
+    ├── Field Advancement: [How it moves field forward]
+    ├── Limitations: [Study constraints]
+    └── Broader Significance: [Wider implications]
+\`\`\`
+
+ANALYSIS STANDARDS:
+🔬 Apply rigorous academic evaluation criteria
+📊 Include quantitative metrics when available
+🧠 Demonstrate critical thinking and analytical depth
+📚 Reference methodological best practices
+🎯 Maintain objectivity while noting subjective assessments
+⚡ Highlight breakthrough findings or methodological innovations
+🔍 Identify gaps, inconsistencies, or areas needing clarification
+${language !== 'English' ? `🌍 Translate to ${language} while preserving technical precision and academic terminology` : ''}
+
+RESEARCH PAPER FOR ANALYSIS:
 ${cleanedContent}`;
 };
 
@@ -234,7 +307,7 @@ app.post('/summarize', async (req, res) => {
     try {
         const prompt = createResearchPaperPrompt(paperContent, language);
         
-        console.log(`Processing paper summary request - Content length: ${paperContent.length} chars, Language: ${language}`);
+        console.log(`Processing comprehensive research analysis - Content length: ${paperContent.length} chars, Language: ${language}`);
         
         // List of fallback models in order of preference
         const models = [
@@ -297,7 +370,7 @@ app.post('/summarize', async (req, res) => {
             throw new Error('Generated summary is too short or empty');
         }
 
-        console.log('Summary generated successfully');
+        console.log('Comprehensive analysis and mind map generated successfully');
         res.json({ 
             summary: summary,
             metadata: {

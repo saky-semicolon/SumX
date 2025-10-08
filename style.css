@@ -664,6 +664,7 @@ body {
     border-bottom: 3px solid #667eea;
     padding-bottom: 0.5rem;
     margin-bottom: 1.5rem;
+    font-size: 1.8rem;
 }
 
 .summary-output h2 {
@@ -672,11 +673,20 @@ body {
     margin-bottom: 1rem;
     border-left: 4px solid #667eea;
     padding-left: 1rem;
+    font-size: 1.4rem;
+}
+
+.summary-output h3 {
+    color: #495057;
+    margin-top: 1.5rem;
+    margin-bottom: 0.8rem;
+    font-size: 1.2rem;
 }
 
 .summary-output p {
     margin-bottom: 1rem;
     text-align: left;
+    line-height: 1.6;
 }
 
 .summary-output ul, .summary-output ol {
@@ -699,6 +709,50 @@ body {
     font-family: 'Monaco', 'Consolas', monospace;
 }
 
+/* Mind Map Styles */
+.summary-output pre {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 1.5rem;
+    font-family: 'Monaco', 'Consolas', monospace;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    color: #495057;
+}
+
+.summary-output pre code {
+    background: none;
+    padding: 0;
+    border-radius: 0;
+    color: inherit;
+}
+
+/* Mind map specific styling */
+.summary-output pre:has(+ *:contains("RESEARCH MIND MAP")) {
+    background: linear-gradient(135deg, #667eea10, #764ba210);
+    border: 2px solid #667eea30;
+}
+
+/* Emoji and special character highlighting in mind maps */
+.summary-output pre {
+    position: relative;
+}
+
+.summary-output pre::before {
+    content: "🗺️ Mind Map";
+    position: absolute;
+    top: -10px;
+    left: 15px;
+    background: white;
+    padding: 0 10px;
+    font-size: 0.8rem;
+    color: #667eea;
+    font-weight: 600;
+}
+
 /* Footer */
 .footer {
     text-align: center;
@@ -706,6 +760,28 @@ body {
     color: white;
     font-size: 0.9rem;
     opacity: 0.8;
+}
+
+.creator-link {
+    color: #ffd700;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+}
+
+.creator-link:hover {
+    color: #fff;
+    background: rgba(255, 215, 0, 0.2);
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+    transform: scale(1.05);
+}
+
+.creator-link:active {
+    transform: scale(0.98);
 }
 
 /* Notifications */
