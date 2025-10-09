@@ -80,13 +80,20 @@ Maintain scientific objectivity and highlight both strengths and limitations wit
     }
 
     /**
-     * Get the current model configuration
+     * Get current model configuration
+     * @returns {Object} Current model information
      */
     getCurrentModel() {
         return this.config.models[this.currentModelIndex];
     }
 
     /**
+     * Get all available models
+     * @returns {Array} Available models array
+     */
+    getAvailableModels() {
+        return this.config.models;
+    }    /**
      * Switch to next available model
      */
     switchToNextModel() {

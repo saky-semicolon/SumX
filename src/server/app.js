@@ -89,7 +89,8 @@ class SumXServer {
      * Setup error handling
      */
     setupErrorHandling() {
-        // 404 handler for API routes - handle in main error handler
+        // 404 handler for unmatched routes
+        this.app.use(notFoundHandler);
         
         // Global error handler
         this.app.use(errorHandler);

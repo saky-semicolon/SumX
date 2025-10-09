@@ -164,10 +164,117 @@ router.get('/models', (req, res) => {
     res.json({
         success: true,
         data: {
-            models: aiService.config.models,
+            models: aiService.getAvailableModels(),
             currentModel: aiService.getCurrentModel()
         }
     });
+});
+
+/**
+ * GET /api/help/pdf-issues
+ * Get help for PDF processing issues
+ */
+router.get('/help/pdf-issues', (req, res) => {
+    res.json({
+        success: true,
+        data: {
+            title: "PDF Processing Troubleshooting Guide",
+            commonIssues: [
+                {
+                    error: "Unexpected token '<'",
+                    cause: "File appears to be HTML instead of PDF",
+                    solution: "Ensure you're uploading a valid PDF file, not a webpage or HTML document"
+                },
+                {
+                    error: "No readable text found",
+                    cause: "PDF contains only images or is scanned document",
+                    solution: "Use OCR software to convert image-based PDFs to text-searchable PDFs"
+                },
+                {
+                    error: "Password-protected PDF",
+                    cause: "PDF requires password to access content",
+                    solution: "Remove password protection from PDF before uploading"
+                }
+            ],
+            supportedFormats: [
+                "PDF files with searchable text (.pdf)",
+                "Plain text files (.txt)"
+            ],
+            maxFileSize: "10MB",
+            tips: [
+                "Ensure PDFs are not password-protected",
+                "Text-based PDFs work better than image-based ones",
+                "Keep file size under 10MB for optimal processing",
+                "If PDF fails, try converting to .txt format"
+            ]
+        }
+    });
+});
+
+/**
+ * POST /api/validate
+ * Validate file without processing - useful for troubleshooting
+ */
+router.post('/validate', upload.single('file'), async (req, res, next) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({
+                success: false,
+                error: 'No file uploaded',
+                details: 'Please upload a file for validation'
+            });
+        }
+
+        const fileType = fileService.detectFileType(req.file.buffer, req.file.originalname);
+        
+        // Basic validation
+        const validation = {
+            filename: req.file.originalname,
+            size: req.file.size,
+            mimetype: req.file.mimetype,
+            detectedType: fileType,
+            isValidSize: req.file.size <= fileService.config.maxFileSize,
+            isValidMime: fileService.config.allowedMimeTypes.includes(req.file.mimetype),
+            recommendations: []
+        };
+
+        // Add specific recommendations based on detected issues
+        if (req.file.mimetype === 'application/pdf' && fileType.type !== 'pdf') {
+            validation.recommendations.push({
+                type: 'error',
+                message: `File has .pdf extension but appears to be ${fileType.type}. Please upload a valid PDF.`
+            });
+        }
+
+        if (req.file.size > fileService.config.maxFileSize) {
+            validation.recommendations.push({
+                type: 'error',
+                message: `File too large (${Math.round(req.file.size / (1024 * 1024))}MB). Maximum allowed: ${fileService.config.maxFileSize / (1024 * 1024)}MB`
+            });
+        }
+
+        if (fileType.type === 'pdf' && fileType.confidence === 'high') {
+            validation.recommendations.push({
+                type: 'success',
+                message: 'Valid PDF detected. File should process successfully.'
+            });
+        }
+
+        if (fileType.type === 'text') {
+            validation.recommendations.push({
+                type: 'success',
+                message: 'Text file detected. File should process successfully.'
+            });
+        }
+
+        res.json({
+            success: true,
+            data: validation
+        });
+
+    } catch (error) {
+        next(error);
+    }
 });
 
 module.exports = router;

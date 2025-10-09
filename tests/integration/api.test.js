@@ -63,17 +63,17 @@ describe('API Integration Tests', () => {
             expect(response.body.error).toBe('No file uploaded');
         });
 
-        test('POST /api/extract should reject missing file', async () => {
+        test('POST /api/analyze/extract should reject missing file', async () => {
             const response = await request(app)
-                .post('/api/extract')
+                .post('/api/analyze/extract')
                 .expect(400);
 
             expect(response.body.success).toBe(false);
         });
 
-        test('GET /api/models should return model information', async () => {
+        test('GET /api/analyze/models should return model information', async () => {
             const response = await request(app)
-                .get('/api/models')
+                .get('/api/analyze/models')
                 .expect(200);
 
             expect(response.body.success).toBe(true);

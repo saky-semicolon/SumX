@@ -89,23 +89,27 @@ async function uploadAndProcessFile(file) {
         // Show loading state
         showNotification('🔄 Extracting text from PDF...', 'info');
         
-        const response = await fetch('/upload', {
+        const response = await fetch('/api/analyze/extract', {
             method: 'POST',
             body: formData
         });
         
-        const data = await response.json();
+        const result = await response.json();
         
         if (!response.ok) {
-            throw new Error(data.error || 'Failed to process PDF file');
+            throw new Error(result.error || result.details || 'Failed to process PDF file');
+        }
+        
+        if (!result.success) {
+            throw new Error(result.error || 'Failed to process PDF file');
         }
         
         // Display the extracted content
-        displayExtractedContent(data.extractedText);
+        displayExtractedContent(result.data.text);
         
         // Show success with metadata
-        const { metadata } = data;
-        showSuccess(`📄 PDF processed successfully! Extracted ${metadata.wordCount} words from "${metadata.filename}"`);
+        const { fileInfo } = result.data;
+        showSuccess(`📄 PDF processed successfully! Extracted ${fileInfo.wordCount} words from "${result.data.filename}"`);
         
         // Clear the info notification
         clearNotificationByType('info');
@@ -225,7 +229,7 @@ summarizeBtn.addEventListener('click', async () => {
     try {
         console.log(`Starting scientific analysis - ${wordCount} words`);
         
-        const response = await fetch('/summarize', {
+        const response = await fetch('/api/analyze/text', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -235,18 +239,22 @@ summarizeBtn.addEventListener('click', async () => {
             }),
         });
         
-        const data = await response.json();
+        const result = await response.json();
         
         if (!response.ok) {
-            throw new Error(data.error || 'Failed to analyze the research paper');
+            throw new Error(result.error || result.details || 'Failed to analyze the research paper');
         }
         
-        currentSummary = data.summary;
+        if (!result.success) {
+            throw new Error(result.error || 'Failed to analyze the research paper');
+        }
+        
+        currentSummary = result.data.analysis;
         displaySummary(currentSummary);
         
         // Show success with metadata
-        if (data.metadata) {
-            showSuccess(`✅ Scientific analysis complete! Generated rigorous research evaluation using ${data.metadata.model}`);
+        if (result.data.model) {
+            showSuccess(`✅ Scientific analysis complete! Generated rigorous research evaluation using ${result.data.model.name}`);
         } else {
             showSuccess('✅ Scientific research analysis completed successfully!');
         }
