@@ -27,7 +27,7 @@ body {
 
 /* Header */
 .header {
-    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
     color: #f1f5f9;
     padding: 3rem 2rem 2rem;
     text-align: center;
@@ -504,49 +504,15 @@ body {
     background: #c82333;
 }
 
-/* Options Section */
-.options-section {
-    padding: 0 2rem 2rem;
-    background: #0f172a;
-    border-bottom: 1px solid #334155;
-}
-
-.option-group {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    background: #334155;
-    padding: 1rem 1.5rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    border: 1px solid #475569;
-}
-
-.option-group label {
-    font-weight: 500;
-    color: #f1f5f9;
-    white-space: nowrap;
-}
-
-.option-group select {
-    flex: 1;
-    padding: 0.5rem;
-    border: 1px solid #475569;
-    border-radius: 6px;
-    background: #1e293b;
-    color: #f1f5f9;
-    font-size: 0.9rem;
-}
-
-/* Summarize Button */
+/* Scientific Analysis Button */
 .summarize-btn {
     display: block;
     width: calc(100% - 4rem);
-    margin: 0 2rem 2rem;
+    margin: 2rem 2rem 2rem;
     padding: 1rem 2rem;
-    background: linear-gradient(135deg, #475569 0%, #64748b 100%);
+    background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
     color: white;
-    border: 1px solid #64748b;
+    border: 1px solid #3b82f6;
     border-radius: 12px;
     font-size: 1.1rem;
     font-weight: 600;
@@ -557,8 +523,8 @@ body {
 
 .summarize-btn:hover:not(:disabled) {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-    background: linear-gradient(135deg, #64748b 0%, #94a3b8 100%);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+    background: linear-gradient(135deg, #2563eb 0%, #60a5fa 100%);
 }
 
 .summarize-btn:disabled {
@@ -762,13 +728,13 @@ body {
     font-size: inherit;
 }
 
-/* Mind map header styling */
+/* Scientific synthesis map header styling */
 .summary-output pre::before {
-    content: "🗺️ INTERACTIVE RESEARCH MAP";
+    content: "� RESEARCH SYNTHESIS MAP";
     position: absolute;
     top: -12px;
     left: 20px;
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: linear-gradient(135deg, #1e40af, #3b82f6);
     color: white;
     padding: 6px 16px;
     border-radius: 20px;
@@ -776,7 +742,7 @@ body {
     font-weight: 600;
     letter-spacing: 0.5px;
     text-transform: uppercase;
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    box-shadow: 0 4px 12px rgba(30, 64, 175, 0.4);
 }
 
 /* Enhanced ASCII art visibility */
@@ -912,7 +878,6 @@ body {
     }
     
     .upload-section,
-    .options-section,
     .summary-section {
         padding: 1.5rem;
     }

@@ -4,7 +4,6 @@ const paperContent = document.getElementById('paper-content');
 const fileInput = document.getElementById('file-input');
 const fileUpload = document.getElementById('file-upload');
 const fileInfo = document.getElementById('file-info');
-const languageSelect = document.getElementById('language-select');
 const summaryOutput = document.getElementById('summary-output');
 const copyBtn = document.getElementById('copy-btn');
 const downloadBtn = document.getElementById('download-btn');
@@ -174,13 +173,13 @@ function updateSummarizeButton() {
     // Update button text based on content
     const btnText = document.querySelector('.btn-text');
     if (content.length === 0) {
-        btnText.textContent = 'Deep Analysis & Mind Map';
+        btnText.textContent = 'Scientific Analysis';
     } else if (content.length < 100) {
         btnText.textContent = `Need ${100 - content.length} more characters`;
     } else if (wordCount < 50) {
         btnText.textContent = `Need ${50 - wordCount} more words`;
     } else {
-        btnText.textContent = `Analyze & Map (${wordCount} words)`;
+        btnText.textContent = `Scientific Analysis (${wordCount} words)`;
     }
 }
 
@@ -199,11 +198,10 @@ function preprocessPaperContent(content) {
         .trim();
 }
 
-// Summarization
+// Scientific Analysis
 summarizeBtn.addEventListener('click', async () => {
     const rawContent = paperContent.value.trim();
     const content = preprocessPaperContent(rawContent);
-    const language = languageSelect.value;
     const wordCount = content.split(/\s+/).length;
     
     if (!content) {
@@ -225,7 +223,7 @@ summarizeBtn.addEventListener('click', async () => {
     clearError();
     
     try {
-        console.log(`Starting analysis with DeepSeek AI - ${wordCount} words, ${language} output`);
+        console.log(`Starting scientific analysis - ${wordCount} words`);
         
         const response = await fetch('/summarize', {
             method: 'POST',
@@ -233,8 +231,7 @@ summarizeBtn.addEventListener('click', async () => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                paperContent: content,
-                language: language
+                paperContent: content
             }),
         });
         
@@ -249,9 +246,9 @@ summarizeBtn.addEventListener('click', async () => {
         
         // Show success with metadata
         if (data.metadata) {
-            showSuccess(`✅ Deep analysis complete! Generated comprehensive summary and mind map using ${data.metadata.model}`);
+            showSuccess(`✅ Scientific analysis complete! Generated rigorous research evaluation using ${data.metadata.model}`);
         } else {
-            showSuccess('✅ Comprehensive research analysis and mind map generation completed!');
+            showSuccess('✅ Scientific research analysis completed successfully!');
         }
         
     } catch (error) {
@@ -281,7 +278,7 @@ function setLoadingState(loading) {
         btnText.classList.add('hidden');
         btnLoader.classList.remove('hidden');
         summarizeBtn.disabled = true;
-        summaryOutput.innerHTML = '<div class="loading">🔄 Performing deep analysis and generating mind map...</div>';
+        summaryOutput.innerHTML = '<div class="loading">🔄 Conducting scientific analysis and evidence evaluation...</div>';
     } else {
         btnText.classList.remove('hidden');
         btnLoader.classList.add('hidden');

@@ -67,148 +67,187 @@ const cleanPaperText = (text) => {
         .replace(/\s+/g, ' '); // Final cleanup of multiple spaces
 };
 
-const createResearchPaperPrompt = (paperContent, language = 'English') => {
+const createResearchPaperPrompt = (paperContent) => {
     const cleanedContent = cleanPaperText(paperContent);
     
-    return `You are SumX — an elite AI research analyst with expertise in academic paper evaluation, critical analysis, and knowledge synthesis. Your task is to perform a comprehensive, deep analysis of research papers with scholarly rigor.
+    return `You are SumX — an elite AI research scientist and analyst with doctoral-level expertise in academic paper evaluation, statistical analysis, and scientific methodology. Your task is to conduct a rigorous, comprehensive scientific analysis with the depth expected in top-tier academic journals.
 
-MISSION: Conduct a thorough academic analysis and create ONLY ONE comprehensive interactive mind map at the very end.
+MISSION: Perform a systematic, evidence-based scientific analysis following peer-review standards with rigorous statistical evaluation and methodological scrutiny.
 
-CRITICAL INSTRUCTION: Do NOT include any mind maps, diagrams, or ASCII art anywhere except the final section. Generate a text-based analysis first, then conclude with exactly ONE interactive mind map.
+CRITICAL INSTRUCTION: Do NOT include any mind maps, diagrams, or ASCII art anywhere except the final section. Generate a comprehensive scientific analysis first, then conclude with exactly ONE research synthesis map.
 
-OUTPUT FORMAT (follow this exact structure):
+SCIENTIFIC ANALYSIS FRAMEWORK (follow this exact structure):
 
-# 📊 COMPREHENSIVE RESEARCH ANALYSIS
+# SCIENTIFIC RESEARCH ANALYSIS
 
-## 🎯 Paper Title & Classification
-[Extract the complete title and classify the research type: Experimental, Theoretical, Review, Meta-analysis, Case Study, etc.]
+## 1. BIBLIOMETRIC OVERVIEW
+**Title:** [Extract complete title verbatim]
+**Study Type:** [Classify: RCT, Observational, Systematic Review, Meta-analysis, Cross-sectional, Longitudinal, etc.]
+**Research Domain:** [Primary discipline and subdiscipline]
+**Publication Metrics:** [Journal, impact factor if mentioned, publication date]
 
-## 👥 Research Team & Institutional Context
-[List authors with their full affiliations, expertise areas, and institutional prestige. Identify lead researchers and collaborative patterns.]
+## 2. AUTHOR CREDENTIALS & INSTITUTIONAL ANALYSIS
+**Primary Investigator:** [Lead author with credentials]
+**Co-investigators:** [Key contributors with expertise]
+**Institutional Affiliations:** [Research institutions, universities, medical centers]
+**Research Group Profile:** [Track record, specialization, funding sources if mentioned]
 
-## 🔍 Research Objective & Significance
-[Analyze and synthesize:
-- Primary research question and hypotheses
-- Research gap being addressed
-- Significance to the field
-- Novel contributions and innovation level
-- Potential impact on existing knowledge]
+## 3. RESEARCH HYPOTHESIS & OBJECTIVES
+**Primary Research Question:** [Main hypothesis being tested]
+**Specific Aims:** [Numbered objectives]
+**Scientific Rationale:** [Theoretical foundation and literature gap]
+**Expected Outcomes:** [A priori predictions]
+**Clinical/Practical Significance:** [Real-world relevance]
 
-## 🧪 Methodological Framework
-[Provide detailed analytical breakdown:
-- Research design philosophy and rationale
-- Data collection strategies and validation methods
-- Sample characteristics: size, selection criteria, demographics
-- Analytical techniques: statistical methods, software tools, algorithms
-- Quality control measures and bias mitigation
-- Limitations and potential confounding factors
-- Reproducibility assessment]
+## 4. METHODOLOGY & EXPERIMENTAL DESIGN
+**Study Architecture:** [Detailed design: randomized, blinded, controlled, etc.]
+**Population & Sampling:**
+  - Target population characteristics
+  - Sample size calculation and power analysis
+  - Inclusion/exclusion criteria
+  - Recruitment methodology
+**Data Collection Protocol:**
+  - Primary and secondary endpoints
+  - Measurement instruments and validation
+  - Data quality assurance procedures
+  - Timeline and follow-up periods
+**Statistical Analysis Plan:**
+  - Primary statistical tests and assumptions
+  - Multiple comparison corrections
+  - Missing data handling
+  - Sensitivity analyses planned
 
-## 📈 Results & Statistical Analysis
-[Comprehensive findings analysis:
-- Primary outcomes with statistical significance levels
-- Secondary findings and unexpected results
-- Effect sizes, confidence intervals, p-values
-- Data visualization and pattern interpretation
-- Comparative analysis with existing literature
-- Statistical power and clinical/practical significance]
+## 5. RESULTS & STATISTICAL FINDINGS
+**Participant Flow:** [Enrollment, randomization, completion rates]
+**Baseline Characteristics:** [Demographics, key variables]
+**Primary Outcomes:**
+  - Main results with exact statistics (means, SDs, CIs, p-values)
+  - Effect sizes and clinical significance
+**Secondary Outcomes:** [Additional findings]
+**Statistical Analysis Quality:**
+  - Appropriate statistical tests used
+  - Assumptions met/violated
+  - Multiple testing corrections applied
+  - Confidence intervals interpretation
 
-## 💡 Critical Evaluation & Implications
-[Scholarly assessment including:
-- Strengths and weaknesses of the study
-- Validity of conclusions drawn
-- Generalizability and external validity
-- Theoretical and practical implications
-- Future research directions suggested
-- Policy or practice recommendations]
+## 6. CRITICAL METHODOLOGICAL ASSESSMENT
+**Study Strengths:**
+  - Methodological rigor
+  - Statistical power adequacy
+  - Internal validity measures
+**Methodological Limitations:**
+  - Potential bias sources
+  - Confounding factors
+  - External validity concerns
+  - Statistical limitations
+**Risk of Bias Assessment:** [Selection, performance, detection, attrition, reporting bias]
 
-## 🌐 Contextual Integration
-[Position within broader field:
-- Relationship to existing research paradigms
-- Confirmation or challenge to current theories
-- Cross-disciplinary connections
-- Evolution of research in this area]
+## 7. SCIENTIFIC INTERPRETATION & IMPLICATIONS
+**Evidence Quality:** [Level of evidence using standard hierarchies]
+**Clinical Significance:** [Beyond statistical significance]
+**Theoretical Contributions:** [Advancement to scientific understanding]
+**Practice Implications:** [Real-world applications]
+**Policy Relevance:** [Regulatory or guideline implications]
+
+## 8. RESEARCH CONTEXT & FUTURE DIRECTIONS
+**Literature Positioning:** [How findings fit with existing evidence]
+**Scientific Consensus:** [Agreement or disagreement with field]
+**Knowledge Gaps Addressed:** [What questions were answered]
+**Future Research Priorities:** [Logical next steps]
+**Replication Needs:** [Reproducibility considerations]
 
 ---
 
-## 🗺️ INTERACTIVE RESEARCH MIND MAP
+## 9. RESEARCH SYNTHESIS MAP
 
 \`\`\`
-                           ⚡ [ACTUAL PAPER TITLE] ⚡
-                                      |
-            ┌─────────────────────────┼─────────────────────────┐
-            │                         │                         │
-        🎯 OBJECTIVES           🧪 METHODOLOGY             📈 FINDINGS
-            │                         │                         │
-    ┌───────┼───────┐         ┌───────┼───────┐         ┌───────┼───────┐
-    │       │       │         │       │       │         │       │       │
-  MAIN   HYPO   GAP       DESIGN   DATA   ANALYSIS     KEY    STATS   IMPACT
-    │       │       │         │       │       │         │       │       │
- [Actual][Test][Field]   [Type] [Source][Method]    [Result][P-val][Effect]
+                    ╔═══════════════════════════════════════════════╗
+                    ║            [ACTUAL PAPER TITLE]               ║
+                    ╚═══════════════════════════════════════════════╝
+                                         │
+                 ┌───────────────────────┼───────────────────────┐
+                 │                       │                       │
+         ┌───────▼───────┐      ┌────────▼────────┐     ┌───────▼───────┐
+         │   HYPOTHESIS   │      │   METHODOLOGY   │     │    RESULTS    │
+         │ & OBJECTIVES   │      │  & ANALYSIS     │     │ & VALIDATION  │
+         └───────┬───────┘      └────────┬────────┘     └───────┬───────┘
+                 │                       │                       │
+    ┌────────────┼────────────┐         │              ┌────────┼────────┐
+    │            │            │         │              │        │        │
+┌───▼───┐   ┌───▼───┐   ┌────▼───┐ ┌───▼───┐     ┌────▼───┐ ┌──▼──┐ ┌──▼──┐
+│ H₀/H₁  │   │ AIMS  │   │ RATIONALE│ │DESIGN│     │PRIMARY │ │STATS│ │POWER│
+│       │   │       │   │          │ │      │     │ENDPOINT│ │     │ │     │
+└───────┘   └───────┘   └──────────┘ └──────┘     └────────┘ └─────┘ └─────┘
 
-━━━━━━━━━━━━━━━━━━━━━━ COMPREHENSIVE CONNECTIONS ━━━━━━━━━━━━━━━━━━━━━━
+═══════════════════════ SCIENTIFIC EVALUATION MATRIX ═══════════════════════
 
-🎯 RESEARCH ARCHITECTURE
-├─ PRIMARY OBJECTIVE: [Extract and insert actual main research question]
-├─ HYPOTHESES TESTED: [List actual hypotheses from the paper]
-├─ KNOWLEDGE GAP: [Identify specific gap this research addresses]
-└─ INNOVATION FACTOR: [What makes this research novel]
+🔬 METHODOLOGICAL RIGOR
+├─ STUDY DESIGN: [Actual design type with controls]
+├─ SAMPLE SIZE: [N= with power calculation if provided]  
+├─ RANDOMIZATION: [Method and allocation concealment]
+├─ BLINDING: [Participants, investigators, analysts]
+├─ BIAS CONTROL: [Selection, performance, detection, attrition]
+└─ STATISTICAL PLAN: [Primary tests, corrections, assumptions]
 
-🧪 METHODOLOGICAL PIPELINE  
-├─ RESEARCH DESIGN: [Actual study design used]
-├─ PARTICIPANTS/SAMPLE: [Real sample size and characteristics]
-├─ DATA COLLECTION: [Actual methods used to gather data]  
-├─ ANALYTICAL APPROACH: [Specific statistical/analytical methods]
-└─ QUALITY CONTROLS: [Validation and bias mitigation measures]
+� STATISTICAL EVIDENCE
+├─ PRIMARY OUTCOME: [Main result with CI and p-value]
+├─ EFFECT SIZE: [Clinical significance and magnitude]
+├─ STATISTICAL POWER: [Post-hoc or planned power analysis]
+├─ CONFIDENCE INTERVALS: [Precision and clinical relevance]
+├─ P-VALUE INTERPRETATION: [Statistical vs clinical significance]
+└─ MULTIPLE COMPARISONS: [Corrections applied if relevant]
 
-📈 EMPIRICAL OUTCOMES
-├─ PRIMARY FINDINGS: [Key results with actual numbers/statistics]
-├─ STATISTICAL POWER: [P-values, confidence intervals, effect sizes]
-├─ UNEXPECTED RESULTS: [Surprising or contradictory findings]
-└─ PRACTICAL SIGNIFICANCE: [Real-world importance of results]
+🎯 SCIENTIFIC CONTRIBUTION
+├─ EVIDENCE LEVEL: [Grade using standard hierarchies]
+├─ CLINICAL IMPACT: [Number needed to treat, harm, etc.]
+├─ THEORETICAL ADVANCE: [Novel mechanisms or pathways]
+├─ METHODOLOGICAL INNOVATION: [New techniques or approaches]
+└─ REPRODUCIBILITY: [Materials, protocols, data availability]
 
-💡 THEORETICAL CONTRIBUTIONS
-├─ FIELD ADVANCEMENT: [How this moves the discipline forward] 
-├─ PARADIGM IMPACT: [Does this challenge existing theories?]
-├─ CROSS-DISCIPLINARY: [Connections to other research areas]
-└─ KNOWLEDGE SYNTHESIS: [How this integrates with existing work]
+🌐 RESEARCH ECOSYSTEM IMPACT
+├─ LITERATURE INTEGRATION: [Systematic review context]
+├─ PRACTICE GUIDELINES: [Potential policy implications]
+├─ FUTURE RESEARCH: [Identified priorities and gaps]
+├─ TRANSLATIONAL POTENTIAL: [Bench to bedside applications]
+└─ GLOBAL HEALTH RELEVANCE: [Population-level significance]
 
-🌐 BROADER ECOSYSTEM
-├─ REAL-WORLD APPLICATIONS: [Practical uses of findings]
-├─ POLICY IMPLICATIONS: [Potential influence on policies/practices]
-├─ FUTURE RESEARCH: [Next steps and research directions suggested]
-├─ LIMITATIONS: [Acknowledged constraints and weaknesses]
-└─ GLOBAL SIGNIFICANCE: [Why this matters beyond academia]
-
-🔗 INTERACTIVE PATHWAYS
-    ┌─ Input Variables → Processing Methods → Output Measures
-    └─ Context Factors → Mediating Processes → Final Outcomes
+� QUALITY ASSESSMENT SUMMARY
+    Risk of Bias: [Low/Moderate/High with justification]
+    External Validity: [Generalizability assessment]
+    Internal Validity: [Causal inference strength]
+    Reporting Quality: [CONSORT, STROBE, PRISMA compliance]
 \`\`\`
 
-**MIND MAP LEGEND:**
-- ⚡ Core Research Focus
-- 🎯 Research Questions & Objectives  
-- 🧪 Methodology & Execution
-- 📈 Data & Statistical Findings
-- 💡 Theoretical Contributions
-- 🌐 Real-World Impact & Future Directions
+**EVIDENCE SYNTHESIS LEGEND:**
+- H₀/H₁: Null and Alternative Hypotheses
+- CI: Confidence Interval
+- N: Sample Size
+- Statistical significance threshold: α = 0.05 (unless otherwise specified)
+- Effect size measures: Cohen's d, OR, RR, HR as appropriate
+- Quality assessment: GRADE, Cochrane RoB, Newcastle-Ottawa as applicable
 
-ANALYSIS STANDARDS:
-🔬 Apply rigorous academic evaluation criteria
-📊 Include quantitative metrics when available
-🧠 Demonstrate critical thinking and analytical depth
-📚 Reference methodological best practices
-🎯 Maintain objectivity while noting subjective assessments
-⚡ Highlight breakthrough findings or methodological innovations
-🔍 Identify gaps, inconsistencies, or areas needing clarification
+SCIENTIFIC ANALYSIS STANDARDS:
+🔬 Apply evidence-based medicine principles and systematic review methodologies
+📊 Report exact statistical values (means±SD, CI, p-values, effect sizes)
+🧠 Use critical appraisal tools (GRADE, Cochrane Risk of Bias, CONSORT)
+📚 Reference established methodological frameworks (PICO, PRISMA, STROBE)
+🎯 Maintain scientific objectivity with transparent bias assessment
+⚡ Identify breakthrough findings with clinical/practical significance thresholds
+🔍 Apply systematic gap analysis and highlight reproducibility concerns
+📈 Evaluate statistical assumptions, power calculations, and multiple testing corrections
+🏥 Assess clinical relevance using established effect size benchmarks
+🌍 Consider population heterogeneity and external validity across settings
 
-CRITICAL FORMATTING RULES:
-❌ Do NOT create any diagrams, mind maps, or ASCII art in the analysis sections
-❌ Do NOT repeat the mind map - include it ONLY at the very end
-✅ Fill in the mind map template with ACTUAL content from the paper
-✅ Replace ALL placeholder text with specific details from the research
-✅ Make the mind map comprehensive and cover the entire research scope
-${language !== 'English' ? `🌍 Translate to ${language} while preserving technical precision and academic terminology` : ''}
+CRITICAL ANALYSIS REQUIREMENTS:
+✅ Extract exact numerical data with appropriate precision
+✅ Evaluate methodological quality using standardized tools
+✅ Assess statistical significance AND clinical meaningfulness
+✅ Identify potential confounders and bias sources
+✅ Compare findings with existing systematic reviews/meta-analyses
+✅ Apply evidence hierarchy classification (RCT, cohort, case-control, etc.)
+✅ Include research synthesis map ONLY at the very end
+❌ Do NOT include any diagrams or visual elements except final synthesis map
+❌ Do NOT make claims beyond what the data supports
 
 RESEARCH PAPER FOR ANALYSIS:
 ${cleanedContent}`;
@@ -315,7 +354,7 @@ app.post('/upload', upload.single('file'), async (req, res) => {
 });
 
 app.post('/summarize', async (req, res) => {
-    const { paperContent, language = 'English' } = req.body;
+    const { paperContent } = req.body;
     const openRouterApiKey = process.env.OPENROUTER_API_KEY;
 
     if (!openRouterApiKey) {
@@ -333,9 +372,9 @@ app.post('/summarize', async (req, res) => {
     }
 
     try {
-        const prompt = createResearchPaperPrompt(paperContent, language);
+        const prompt = createResearchPaperPrompt(paperContent);
         
-        console.log(`Processing comprehensive research analysis - Content length: ${paperContent.length} chars, Language: ${language}`);
+        console.log(`Processing scientific research analysis - Content length: ${paperContent.length} chars`);
         
         // List of fallback models in order of preference
         const models = [
@@ -356,7 +395,7 @@ app.post('/summarize', async (req, res) => {
                     messages: [
                         { 
                             role: 'system', 
-                            content: 'You are an expert academic research assistant specialized in analyzing and summarizing research papers with exceptional accuracy. Always follow the exact structure provided and maintain academic rigor. Handle poorly formatted or OCR-extracted text gracefully by interpreting context intelligently.'
+                            content: 'You are a senior research scientist and methodologist with expertise in evidence-based medicine, biostatistics, and systematic review methodology. Conduct rigorous scientific analysis following peer-review standards. Apply critical appraisal tools, evaluate statistical significance and clinical relevance, assess methodological quality, and identify bias sources. Maintain scientific objectivity and precision in all analyses.'
                         },
                         { role: 'user', content: prompt }
                     ],
@@ -398,14 +437,14 @@ app.post('/summarize', async (req, res) => {
             throw new Error('Generated summary is too short or empty');
         }
 
-        console.log('Comprehensive analysis and mind map generated successfully');
+        console.log('Scientific research analysis completed successfully');
         res.json({ 
             summary: summary,
             metadata: {
                 model: usedModel,
                 inputLength: paperContent.length,
                 outputLength: summary.length,
-                language: language
+                analysisType: 'Scientific Research Analysis'
             }
         });
     } catch (error) {
