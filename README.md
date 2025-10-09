@@ -1,6 +1,12 @@
-# 🔬 SumX - AI-Powered Research Paper Summarizer
+# 🔬 SumX - AI-Powered Research Paper Analysis Platform
 
-SumX is an intelligent web application designed to analyze and summarize research papers with academic precision. Built with modern web technologies and powered by OpenRouter AI models, it provides structured, comprehensive summaries of scientific literature.
+> **Professional scientific research analysis with evidence-based evaluation**
+
+SumX is a comprehensive research paper analysis platform that provides rigorous scientific evaluation using AI-powered assessment tools. Built with enterprise-grade architecture and following evidence-based medicine standards, it delivers peer-review quality analysis of scientific literature.
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Node.js Version](https://img.shields.io/badge/node-%3E%3D14.0.0-brightgreen)](https://nodejs.org/)
+[![API Documentation](https://img.shields.io/badge/API-Documentation-blue)](./docs/API.md)
 
 ## ✨ Features
 
@@ -46,15 +52,26 @@ SumX is an intelligent web application designed to analyze and summarize researc
    npm install
    ```
 
-3. **Set up environment variables**
-   Create a `.env` file in the root directory:
-   ```env
-   OPENROUTER_API_KEY=your_openrouter_api_key_here
+3. **Quick setup (recommended)**
+   ```bash
+   chmod +x scripts/setup.sh
+   ./scripts/setup.sh
    ```
 
-4. **Start the server**
+   Or manually:
+   ```bash
+   cp .env.example .env
+   # Edit .env file and add your OPENROUTER_API_KEY
+   ```
+
+4. **Start the application**
    ```bash
    npm start
+   ```
+
+   For development with auto-reload:
+   ```bash
+   npm run dev
    ```
 
 5. **Open your browser**
@@ -137,13 +154,44 @@ Concise overview of the research purpose and scope
 
 ```
 SumX/
-├── server.js          # Express server and API endpoints
-├── index.html         # Main web interface
-├── script.js          # Frontend JavaScript logic
-├── style.css          # Modern CSS styling
-├── package.json       # Node.js dependencies
-├── .env              # Environment configuration
-└── README.md         # Documentation
+├── src/
+│   ├── client/                    # Frontend application
+│   │   ├── index.html            # Main application interface
+│   │   └── assets/
+│   │       ├── css/
+│   │       │   └── style.css     # Application styling
+│   │       └── js/
+│   │           └── script.js     # Client-side logic
+│   └── server/                   # Backend application
+│       ├── app.js               # Main application server
+│       ├── config/              # Configuration files
+│       │   ├── app.js          # Application settings
+│       │   ├── ai.js           # AI service configuration
+│       │   └── database.js     # Database configuration
+│       ├── services/           # Business logic services
+│       │   ├── aiService.js    # AI analysis service
+│       │   └── fileService.js  # File processing service
+│       ├── routes/             # API route handlers
+│       │   ├── analysis.js     # Analysis endpoints
+│       │   └── health.js       # Health check endpoints
+│       └── middleware/         # Express middleware
+│           ├── errorHandler.js # Error handling
+│           └── upload.js       # File upload handling
+├── tests/                      # Test suites
+│   ├── unit/                  # Unit tests
+│   ├── integration/           # Integration tests
+│   └── setup.js              # Test configuration
+├── docs/                      # Documentation
+│   ├── API.md                # API documentation
+│   └── DEPLOYMENT.md         # Deployment guide
+├── config/                    # External configurations
+├── scripts/                   # Utility scripts
+│   └── setup.sh             # Development setup
+├── package.json              # Dependencies and scripts
+├── .env.example             # Environment template
+├── jest.config.js           # Test configuration
+├── .eslintrc.js            # Code style configuration
+└── README.md               # This file
 ```
 
 ## 🔬 Technical Details
@@ -185,21 +233,90 @@ Analyzes research paper content and returns structured summary.
 
 ### Local Development
 ```bash
-# Install dependencies
-npm install
+# Quick setup
+./scripts/setup.sh
 
-# Start development server
+# Manual setup
+npm install
+cp .env.example .env
+# Configure your .env file
+
+# Development server (with auto-reload)
+npm run dev
+
+# Production server
 npm start
 
-# The application will be available at http://localhost:3000
+# Run tests
+npm test
+
+# Linting
+npm run lint
 ```
 
-### Code Structure
+### Architecture Overview
 
-- **Modular Architecture**: Separated concerns between frontend and backend
-- **Error Handling**: Comprehensive error catching and user feedback
-- **Responsive Design**: Mobile-first CSS approach
-- **Performance**: Optimized for large document processing
+#### Backend (Node.js/Express)
+- **Modular Design**: Service-oriented architecture with clear separation of concerns
+- **Configuration Management**: Environment-based configuration with validation
+- **Error Handling**: Comprehensive error middleware with proper HTTP status codes
+- **API Design**: RESTful endpoints with consistent response format
+- **File Processing**: Advanced PDF text extraction with OCR cleanup
+- **AI Integration**: Multi-model fallback system for reliability
+
+#### Frontend (Vanilla JavaScript)
+- **Modern UI**: Responsive design with CSS Grid/Flexbox
+- **Progressive Enhancement**: Works without JavaScript for basic functionality
+- **File Handling**: Drag-and-drop with real-time validation
+- **State Management**: Clean separation of UI and data logic
+
+#### Services Architecture
+```
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   File Service  │    │   AI Service    │    │  Config Service │
+│                 │    │                 │    │                 │
+│ • PDF Extract   │    │ • Multi-model   │    │ • Environment   │
+│ • Text Clean    │    │ • Fallback      │    │ • Validation    │
+│ • Validation    │    │ • Analysis      │    │ • Security      │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+         │                       │                       │
+         └───────────────────────┼───────────────────────┘
+                                 │
+                    ┌─────────────────┐
+                    │  Express App    │
+                    │                 │
+                    │ • Routes        │
+                    │ • Middleware    │
+                    │ • Error Handle  │
+                    └─────────────────┘
+```
+
+### Testing Strategy
+
+#### Unit Tests
+- Service layer testing
+- Utility function validation
+- Configuration verification
+
+#### Integration Tests
+- API endpoint testing
+- File upload workflows
+- Error handling scenarios
+
+#### Test Commands
+```bash
+# Run all tests
+npm test
+
+# Unit tests only
+npm run test:unit
+
+# Integration tests only
+npm run test:integration
+
+# Watch mode (development)
+npm test -- --watch
+```
 
 ## 🤝 Contributing
 
@@ -227,16 +344,109 @@ This project is licensed under the ISC License - see the [LICENSE](LICENSE) file
 - **Meta AI & Mistral**: Advanced language model technology
 - **Research Community**: For inspiring better academic tools
 
-## 🔮 Future Enhancements
+## � API Reference
 
-- [x] Direct PDF text extraction ✅ **Now Available!**
-- [ ] Microsoft Word document support
-- [ ] Citation format extraction
-- [ ] Batch processing for multiple papers
-- [ ] Advanced search and filtering
-- [ ] Integration with academic databases
-- [ ] Custom summary templates
-- [ ] Collaborative features
+### Quick API Overview
+
+```bash
+# Health check
+curl http://localhost:3000/api/health
+
+# Analyze text
+curl -X POST http://localhost:3000/api/analyze/text \
+  -H "Content-Type: application/json" \
+  -d '{"paperContent": "Your research paper content here..."}'
+
+# Upload and analyze file
+curl -X POST http://localhost:3000/api/analyze/file \
+  -F "file=@research-paper.pdf"
+
+# Extract text only
+curl -X POST http://localhost:3000/api/extract \
+  -F "file=@research-paper.pdf"
+```
+
+**Full API Documentation**: [docs/API.md](./docs/API.md)
+
+## 🌐 Deployment
+
+### Quick Deploy Options
+
+#### Heroku
+```bash
+heroku create your-sumx-app
+heroku config:set OPENROUTER_API_KEY=your_key_here
+git push heroku main
+```
+
+#### Docker
+```bash
+docker build -t sumx .
+docker run -p 3000:3000 --env-file .env sumx
+```
+
+#### PM2 (Production)
+```bash
+npm install -g pm2
+pm2 start src/server/app.js --name "sumx"
+pm2 startup && pm2 save
+```
+
+**Full Deployment Guide**: [docs/DEPLOYMENT.md](./docs/DEPLOYMENT.md)
+
+## 📊 Performance & Scaling
+
+### Production Optimizations
+- **Clustering**: Multi-process support with PM2
+- **Caching**: Static asset caching with proper headers
+- **Compression**: Gzip compression for responses
+- **Memory Management**: Automatic restart on memory limits
+- **Load Balancing**: Nginx upstream configuration
+
+### Monitoring
+- Health check endpoint (`/api/health`)
+- PM2 process monitoring
+- Memory and CPU usage tracking
+- API response time monitoring
+
+## 🔒 Security Features
+
+- **Input Validation**: Comprehensive request validation
+- **File Security**: MIME type and extension verification
+- **Error Handling**: Secure error responses without information leakage
+- **CORS Configuration**: Configurable cross-origin policies
+- **Rate Limiting**: Configurable request rate limits (production)
+
+## 🔮 Roadmap & Future Enhancements
+
+### Completed ✅
+- [x] Professional architecture with modular design
+- [x] Comprehensive test suite with CI/CD ready structure
+- [x] Advanced PDF text extraction with OCR cleanup
+- [x] Multi-model AI fallback system for reliability
+- [x] Production-ready deployment configurations
+- [x] Extensive documentation and API reference
+
+### Planned Features 🔄
+- [ ] **Database Integration**: PostgreSQL/MongoDB support for document history
+- [ ] **User Authentication**: JWT-based user accounts and API keys  
+- [ ] **Batch Processing**: Multiple document analysis in parallel
+- [ ] **Citation Extraction**: Automatic reference and citation parsing
+- [ ] **Advanced Analytics**: Usage statistics and analysis insights
+- [ ] **Microsoft Word Support**: .docx file processing capability
+- [ ] **Academic Database Integration**: Direct PubMed, ArXiv connections
+- [ ] **Custom Templates**: Configurable analysis output formats
+- [ ] **Collaborative Features**: Team workspaces and shared analyses
+- [ ] **Mobile App**: React Native mobile application
+- [ ] **Browser Extension**: Chrome/Firefox extension for direct web analysis
+
+### Technical Improvements 🛠️
+- [ ] **Microservices**: Service mesh architecture for horizontal scaling
+- [ ] **Redis Caching**: In-memory caching for improved performance
+- [ ] **Queue System**: Background job processing with Bull/Agenda
+- [ ] **GraphQL API**: More efficient data fetching capabilities
+- [ ] **WebSocket Support**: Real-time analysis progress updates
+- [ ] **CDN Integration**: Global content delivery network support
 
 ---
 
