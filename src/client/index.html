@@ -1,1 +1,180 @@
-<!DOCTYPE html><html lang="en"><head>    <meta charset="UTF-8">    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <title>SumX - Research Paper Summarizer</title>    <link rel="stylesheet" href="assets/css/style.css">    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" /></head><body>    <div class="container">        <header class="header">            <h1>🔬 SumX</h1>            <p class="subtitle">AI-Powered Research Paper Summarizer</p>            <p class="description">Upload your research paper to get a structured academic summary powered by AI</p>        </header>                <div class="upload-section">            <div class="research-visualization">                <div class="molecule-animation">                    <div class="molecule">                        <div class="atom atom-1"></div>                        <div class="atom atom-2"></div>                        <div class="atom atom-3"></div>                        <div class="bond bond-1"></div>                        <div class="bond bond-2"></div>                        <div class="bond bond-3"></div>                    </div>                </div>                <div class="research-icons">                    <div class="research-icon">🧬</div>                    <div class="research-icon">🔬</div>                    <div class="research-icon">📊</div>                    <div class="research-icon">⚗️</div>                    <div class="research-icon">📈</div>                    <div class="research-icon">🧪</div>                </div>            </div>                        <div class="upload-container">                <div class="file-upload-area" id="file-upload">                    <div class="upload-content">                        <div class="upload-icon-large">📄</div>                        <h3 class="upload-title">Upload Research Paper</h3>                        <p class="upload-description">                            Drop your PDF or text file here, or click to browse                        </p>                        <div class="supported-formats">                            <span class="format-badge">PDF</span>                            <span class="format-badge">TXT</span>                        </div>                        <div class="upload-features">                            <div class="feature">🔍 Advanced PDF text extraction</div>                            <div class="feature">🧠 Deep AI-powered analysis</div>                            <div class="feature">🗺️ Mind map generation</div>                        </div>                        <button class="browse-btn" onclick="document.getElementById('file-input').click()">                            Choose File                        </button>                    </div>                    <input type="file" id="file-input" accept=".pdf,.txt" hidden>                </div>                                <div id="file-info" class="file-info-card hidden">                    <div class="file-preview">                        <!-- File information will be populated here -->                    </div>                </div>                                <div id="extracted-content" class="extracted-content-area hidden">                    <div class="content-header">                        <h4>📄 Extracted Content</h4>                        <span class="word-count" id="word-count">0 words</span>                    </div>                    <div class="content-preview" id="content-preview">                        <!-- Extracted text preview will appear here -->                    </div>                    <textarea id="paper-content" class="hidden"></textarea>                </div>            </div>        </div>        <button id="summarize-btn" class="summarize-btn" disabled>            <span class="btn-text">Scientific Analysis</span>            <span class="btn-loader hidden">🔄 Conducting Scientific Analysis...</span>        </button>        <div class="summary-section">            <div class="summary-header">                <h2>🔬 Scientific Research Analysis</h2>                <div class="summary-actions">                    <button id="copy-btn" class="action-btn" title="Copy to clipboard" disabled>📋</button>                    <button id="download-btn" class="action-btn" title="Download as Markdown" disabled>💾</button>                </div>            </div>            <div class="summary-container">                <div id="summary-output" class="summary-output">                    <div class="placeholder">                        <div class="placeholder-icon">🔬</div>                        <h3>Ready for Scientific Analysis</h3>                        <p>Upload a research paper and click "Scientific Analysis" to get a comprehensive evaluation including:</p>                        <ul>                            <li>🔬 Rigorous Methodological Assessment</li>                            <li>📊 Statistical Evidence Evaluation</li>                            <li>🎯 Critical Quality Appraisal</li>                            <li>📈 Evidence-Based Interpretation</li>                            <li>🧬 Research Synthesis Mapping</li>                        </ul>                    </div>                </div>            </div>        </div>    </div>    <footer class="footer">        <p>🚀 Powered by Llama 3.2 AI via OpenRouter • Built with ❤️ and ☕ by <a href="https://www.saky.space" target="_blank" class="creator-link">Saky</a></p>    </footer>    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.2/marked.min.js"></script>    <script src="assets/js/script.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SumX - Research Paper Summarizer</title>
+  <link rel="icon" type="image/x-icon" href="assets/logo/sumx_favicon.png" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+    rel="stylesheet"
+  />
+</head>
+
+<body>
+  <div class="container">
+    <!-- Header Section -->
+    <header class="header">
+      <div class="header-title-img">
+        <img src="assets/logo/sumx_favicon.png" alt="SumX Logo" width="60px"/>
+        <h1>SumX</h1>
+      </div>
+      <p class="subtitle">AI-Powered Research Paper Summarizer</p>
+      <p class="description">
+        Upload your research paper to get a structured academic summary powered by AI.
+      </p>
+    </header>
+
+    <!-- Upload Section -->
+    <section class="upload-section">
+      <!-- Visualization / Animation -->
+      <div class="research-visualization">
+        <div class="molecule-animation">
+          <div class="molecule">
+            <div class="atom atom-1"></div>
+            <div class="atom atom-2"></div>
+            <div class="atom atom-3"></div>
+            <div class="bond bond-1"></div>
+            <div class="bond bond-2"></div>
+            <div class="bond bond-3"></div>
+          </div>
+        </div>
+
+        <div class="research-icons">
+          <div class="research-icon">🧬</div>
+          <div class="research-icon">🔬</div>
+          <div class="research-icon">📊</div>
+          <div class="research-icon">⚗️</div>
+          <div class="research-icon">📈</div>
+          <div class="research-icon">🧪</div>
+        </div>
+      </div>
+
+      <!-- Upload Container -->
+      <div class="upload-container">
+        <div class="file-upload-area" id="file-upload">
+          <div class="upload-content">
+            <div class="upload-icon-large">📄</div>
+            <h3 class="upload-title">Upload Research Paper</h3>
+            <p class="upload-description">
+              Drop your PDF or text file here, or click to browse
+            </p>
+
+            <div class="supported-formats">
+              <span class="format-badge">PDF</span>
+              <span class="format-badge">TXT</span>
+            </div>
+
+            <div class="upload-features">
+              <div class="feature">🔍 Advanced PDF text extraction</div>
+              <div class="feature">🧠 Deep AI-powered analysis</div>
+              <div class="feature">🗺️ Mind map generation</div>
+            </div>
+
+            <button
+              class="browse-btn"
+              onclick="document.getElementById('file-input').click()"
+            >
+              Choose File
+            </button>
+          </div>
+
+          <input type="file" id="file-input" accept=".pdf,.txt" hidden />
+        </div>
+
+        <!-- File Info -->
+        <div id="file-info" class="file-info-card hidden">
+          <div class="file-preview">
+            <!-- File information will be populated here -->
+          </div>
+        </div>
+
+        <!-- Extracted Content -->
+        <div id="extracted-content" class="extracted-content-area hidden">
+          <div class="content-header">
+            <h4>📄 Extracted Content</h4>
+            <span class="word-count" id="word-count">0 words</span>
+          </div>
+          <div class="content-preview" id="content-preview">
+            <!-- Extracted text preview will appear here -->
+          </div>
+          <textarea id="paper-content" class="hidden"></textarea>
+        </div>
+      </div>
+    </section>
+
+    <!-- Summarize Button -->
+    <button id="summarize-btn" class="summarize-btn" disabled>
+      <span class="btn-text">Scientific Analysis</span>
+      <span class="btn-loader hidden">🔄 Conducting Scientific Analysis...</span>
+    </button>
+
+    <!-- Summary Section -->
+    <section class="summary-section">
+      <div class="summary-header">
+        <h2>🔬 Scientific Research Analysis</h2>
+        <div class="summary-actions">
+          <button
+            id="copy-btn"
+            class="action-btn"
+            title="Copy to clipboard"
+            disabled
+          >
+            📋
+          </button>
+          <button
+            id="download-btn"
+            class="action-btn"
+            title="Download as Markdown"
+            disabled
+          >
+            💾
+          </button>
+        </div>
+      </div>
+
+      <div class="summary-container">
+        <div id="summary-output" class="summary-output">
+          <div class="placeholder">
+            <div class="placeholder-icon"><img class="logo" src="assets/logo/sumx_logo.png" alt="SumX Logo" width="200px"/></div>
+            <h3>Ready for Scientific Analysis</h3>
+            <p>
+              Upload a research paper and click "Scientific Analysis" to get a
+              comprehensive evaluation including:
+            </p>
+            <ul>
+              <li>🔬 Rigorous Methodological Assessment</li>
+              <li>📊 Statistical Evidence Evaluation</li>
+              <li>🎯 Critical Quality Appraisal</li>
+              <li>📈 Evidence-Based Interpretation</li>
+              <li>🧬 Research Synthesis Mapping</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>
+      🚀 Powered by Llama 3.2 AI via OpenRouter • Built with ❤️ and ☕ by
+      <a
+        href="https://www.saky.space"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="creator-link"
+      >
+        Saky
+      </a>
+    </p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.2/marked.min.js"></script>
+  <script src="assets/js/script.js"></script>
+</body>
+</html>
