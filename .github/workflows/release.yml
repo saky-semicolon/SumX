@@ -196,7 +196,7 @@ jobs:
         readme-filepath: ./README.md
     
     - name: Cleanup old GitHub packages
-      uses: actions/delete-package-versions@v4
+      uses: actions/delete-package-versions@v5
       with:
         package-name: sumx
         package-type: container
