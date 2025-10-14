@@ -1,0 +1,44 @@
+# ============================================================================
+# SumX Development Dockerfile
+# Hot-reload enabled development environment
+# ============================================================================
+
+FROM node:18-alpine
+
+# Install development dependencies
+RUN apk add --no-cache \
+    python3 \
+    make \
+    g++ \
+    cairo-dev \
+    jpeg-dev \
+    pango-dev \
+    musl-dev \
+    giflib-dev \
+    pixman-dev \
+    pangomm-dev \
+    libjpeg-turbo-dev \
+    freetype-dev \
+    curl \
+    git
+
+# Create app directory
+WORKDIR /app
+
+# Install nodemon globally for hot-reload
+RUN npm install -g nodemon
+
+# Copy package files
+COPY package*.json ./
+
+# Install all dependencies (including dev)
+RUN npm install
+
+# Copy source code
+COPY . .
+
+# Expose ports
+EXPOSE 3000 9229
+
+# Start with nodemon for development
+CMD ["npm", "run", "dev"]

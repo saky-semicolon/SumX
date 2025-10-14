@@ -1,0 +1,128 @@
+# ============================================================================
+# Docker Compose Configuration for SumX
+# Production-ready container orchestration
+# ============================================================================
+
+services:
+  # ============================================================================
+  # Main Application Service
+  # ============================================================================
+  sumx:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: sumx-app
+    restart: unless-stopped
+    
+    # Port mapping
+    ports:
+      - "${PORT:-3000}:3000"
+    
+    # Environment variables
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
+    
+    # Volume mounts for persistence
+    volumes:
+      - app-logs:/app/logs
+      - app-uploads:/app/uploads:ro
+      - /etc/localtime:/etc/localtime:ro
+    
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    
+    # Health check
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    
+    # Security options
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp:noexec,nosuid,size=256m
+    
+    # Logging configuration
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "5"
+        compress: "true"
+    
+    # Network configuration
+    networks:
+      - sumx-network
+
+  # ============================================================================
+  # Nginx Reverse Proxy (Optional)
+  # ============================================================================
+  nginx:
+    image: nginx:1.25-alpine
+    container_name: sumx-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+      - nginx-cache:/var/cache/nginx
+    depends_on:
+      - sumx
+    networks:
+      - sumx-network
+    profiles:
+      - nginx
+
+  # ============================================================================
+  # Redis for Caching (Optional)
+  # ============================================================================
+  redis:
+    image: redis:7-alpine
+    container_name: sumx-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-sumx-redis-pass}
+    volumes:
+      - redis-data:/data
+    networks:
+      - sumx-network
+    profiles:
+      - redis
+
+# ============================================================================
+# Named Volumes for Data Persistence
+# ============================================================================
+volumes:
+  app-logs:
+    driver: local
+  app-uploads:
+    driver: local
+  nginx-cache:
+    driver: local
+  redis-data:
+    driver: local
+
+# ============================================================================
+# Network Configuration
+# ============================================================================
+networks:
+  sumx-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

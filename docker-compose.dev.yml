@@ -1,0 +1,39 @@
+# ============================================================================
+# Docker Compose Configuration for Development
+# Hot-reload enabled development environment
+# ============================================================================
+
+services:
+  sumx-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: sumx-dev
+    restart: unless-stopped
+    
+    ports:
+      - "3000:3000"
+      - "9229:9229"  # Node.js debugger port
+    
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
+      - DEBUG=sumx:*
+    
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - dev-logs:/app/logs
+    
+    command: npm run dev
+    
+    networks:
+      - sumx-dev-network
+
+volumes:
+  dev-logs:
+
+networks:
+  sumx-dev-network:
+    driver: bridge
