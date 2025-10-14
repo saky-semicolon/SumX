@@ -270,18 +270,8 @@ Currently no rate limiting is implemented. In production, consider implementing:
 
 ## Authentication
 
-Currently no authentication is required. For production deployment, consider:
-- API key authentication
-- User registration and limits
-- OAuth integration
+Currently no authentication is required. For future deployments, consider this.
 
 ## CORS
 
 Cross-Origin Resource Sharing is enabled for all origins (`*`) in development. Configure appropriately for production.
-
-## Legacy Compatibility
-
-### POST /summarize
-Deprecated endpoint that redirects to `/api/analyze/text` for backward compatibility.
-
-**Note:** This endpoint will be removed in future versions. Use `/api/analyze/text` instead.

@@ -1,455 +1,296 @@
-# 🔬 SumX - AI-Powered Research Paper Analysis Platform
+# SumX
 
-> **Professional scientific research analysis with evidence-based evaluation**
+**AI-Powered Research Paper Analysis Platform**
 
-SumX is a comprehensive research paper analysis platform that provides rigorous scientific evaluation using AI-powered assessment tools. Built with enterprise-grade architecture and following evidence-based medicine standards, it delivers peer-review quality analysis of scientific literature.
+A professional scientific research analysis platform that provides comprehensive evaluation of academic papers using advanced AI models. Features enterprise-grade architecture, evidence-based methodology assessment, and peer-review quality analysis.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Node.js Version](https://img.shields.io/badge/node-%3E%3D14.0.0-brightgreen)](https://nodejs.org/)
-[![API Documentation](https://img.shields.io/badge/API-Documentation-blue)](./docs/API.md)
+[![Node.js](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org/)
+[![Docker](https://img.shields.io/badge/docker-supported-blue)](./docs/DOCKER.md)
+[![API Docs](https://img.shields.io/badge/API-Documentation-blue)](./docs/API.md)
 
-## ✨ Features
+## Features
 
-### 📋 Structured Academic Summaries
-- **Title & Authors**: Extracts paper title and author affiliations
-- **Abstract Summary**: Concise overview of research purpose and scope
-- **Methodology**: Detailed breakdown of research methods and approaches
-- **Key Findings**: Comprehensive results and conclusions
+### Scientific Analysis Framework
+- **Evidence-Based Evaluation**: GRADE methodology and CONSORT/STROBE guidelines
+- **Peer Review Quality**: Comprehensive methodological assessment
+- **Multi-Model AI**: Fallback system with Llama 3.2, Mistral 7B, and Phi-3
+- **Statistical Synthesis**: Effect estimates, heterogeneity analysis, bias assessment
 
-### 🌍 Multi-language Support
-- Output summaries in 8+ languages
-- Supports English, Spanish, French, German, Chinese, Japanese, Portuguese, and Russian
-- Maintains academic accuracy across languages
+### File Processing Capabilities
+- **PDF Text Extraction**: Advanced OCR cleanup and formatting normalization
+- **Multiple Formats**: Support for PDF, TXT files with drag-and-drop interface
+- **Content Validation**: Input quality verification and length requirements
+- **Error Recovery**: Intelligent handling of corrupted or image-based documents
 
-### 📄 Flexible Input Methods
-- **Text Input**: Paste extracted paper content directly
-- **PDF Upload**: Direct PDF text extraction and processing
-- **File Upload**: Support for .pdf and .txt files
-- **Smart Content Processing**: Handles OCR text and messy formatting
+### Enterprise Architecture
+- **Production Ready**: Docker containerization with health monitoring
+- **Scalable Design**: Modular service architecture with load balancing support  
+- **Security Hardened**: Non-root execution, input validation, CORS protection
+- **Comprehensive Testing**: Unit and integration test suites with CI/CD integration
 
-### 💡 User-Friendly Interface
-- Clean, modern design optimized for researchers
-- Real-time content validation
-- Progress indicators and error handling
-- Copy-to-clipboard and markdown download functionality
-
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
-- Node.js (v14 or higher)
-- OpenRouter API key
+
+- **Node.js**: v18.0.0 or higher
+- **Docker**: v20.0.0 or higher (for containerized deployment)
+- **OpenRouter API Key**: [Get your key here](https://openrouter.ai/keys)
 
 ### Installation
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/saky-semicolon/SumX.git
-   cd SumX
-   ```
+#### Option 1: Docker (Recommended)
 
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
+```bash
+# Clone repository
+git clone https://github.com/saky-semicolon/SumX.git
+cd SumX
 
-3. **Quick setup (recommended)**
-   ```bash
-   chmod +x scripts/setup.sh
-   ./scripts/setup.sh
-   ```
+# Configure environment
+cp .env.example .env
+# Edit .env and add your OPENROUTER_API_KEY
 
-   Or manually:
-   ```bash
-   cp .env.example .env
-   # Edit .env file and add your OPENROUTER_API_KEY
-   ```
-
-4. **Start the application**
-   ```bash
-   npm start
-   ```
-
-   For development with auto-reload:
-   ```bash
-   npm run dev
-   ```
-
-5. **Open your browser**
-   Navigate to `http://localhost:3000`
-
-## 🔧 Usage
-
-### Basic Workflow
-
-1. **Input Your Research Paper**
-   - Upload a PDF file directly, or
-   - Copy and paste the paper content into the text area, or
-   - Upload a .txt file containing the paper content
-
-2. **Select Output Language** (Optional)
-   - Choose from 8 supported languages
-   - Default is English
-
-3. **Generate Summary**
-   - Click "Analyze Research Paper"
-   - Wait for AI processing (typically 30-60 seconds)
-
-4. **Review and Export**
-   - Review the structured summary
-   - Copy to clipboard or download as Markdown
-
-### Input Guidelines
-
-For best results, provide:
-- **Complete paper text** including abstract, methodology, results, and conclusions
-- **Well-formatted content** (though SumX can handle OCR text)
-- **Minimum 100 characters** for meaningful analysis
-- **Academic papers** rather than blog posts or articles
-
-### Expected Output Format
-
-```markdown
-# Paper Title
-
-## Authors & Affiliations
-- Author names and institutional affiliations
-
-## Abstract Summary  
-Concise overview of the research purpose and scope
-
-## Methodology
-- Research design and approaches
-- Data collection methods
-- Analytical techniques
-
-## Key Findings / Results
-- Main discoveries and results
-- Statistical findings
-- Research conclusions
+# Deploy with Docker
+./scripts/deploy.sh
 ```
 
-## 🏗️ Architecture
+#### Option 2: Local Development
 
-### Backend (Node.js/Express)
-- **API Integration**: OpenRouter AI service integration
-- **Content Processing**: Research paper content analysis
-- **Multi-language**: Translation and localization support
-- **Error Handling**: Comprehensive error management
+```bash
+# Clone and install
+git clone https://github.com/saky-semicolon/SumX.git
+cd SumX
+npm install
 
-### Frontend (Vanilla JS)
-- **Modern UI**: Responsive design with CSS Grid/Flexbox
-- **File Handling**: Drag-and-drop file upload interface
-- **Markdown Rendering**: Real-time preview with marked.js
-- **State Management**: Client-side content and UI state
+# Configure environment
+cp .env.example .env
+# Edit .env with your API key
 
-### AI Integration
-- **Primary Model**: Llama 3.2-3B Instruct (free tier) - Reliable and accurate
-- **Fallback Models**: Mistral 7B, Phi-3 Mini for maximum reliability
-- **Smart Model Selection**: Automatically tries different models if one fails
-- **PDF Text Processing**: Advanced cleaning for OCR and copy-paste text
-- **Content Validation**: Input quality and length validation
-- **Error Handling**: Comprehensive validation and user feedback
+# Start development server
+npm run dev
+```
 
-## 📁 Project Structure
+#### Access Application
+
+- **Application**: http://localhost:3000
+- **Health Check**: http://localhost:3000/api/health
+- **API Documentation**: [docs/API.md](./docs/API.md)
+
+
+### Web Interface Workflow
+
+1. **Upload Document**: Drag-and-drop PDF/TXT files or paste content directly
+2. **Process Analysis**: Automated text extraction and scientific evaluation 
+3. **Review Results**: Comprehensive analysis following evidence-based standards
+4. **Export Data**: Copy to clipboard or download as structured markdown
+
+### Input Requirements
+
+- **File Types**: PDF (text-based), TXT files
+- **Content Length**: Minimum 100 characters for meaningful analysis
+- **File Size**: Maximum 10MB per upload
+- **Format**: Academic papers with clear methodology and results sections
+
+## Architecture
+
+### System Overview
+
+SumX follows a modular, service-oriented architecture designed for scalability and maintainability.
+
+```
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   Client Layer  │    │  API Gateway    │    │  Service Layer  │
+│                 │    │                 │    │                 │
+│ • Web Interface │    │ • Express.js    │    │ • AI Service    │
+│ • File Upload   │◄──►│ • Rate Limiting │◄──►│ • File Service  │
+│ • Drag & Drop   │    │ • CORS/Security │    │ • Config Mgmt   │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+```
+
+### Core Components
+
+#### Backend Services
+- **Express.js Server**: RESTful API with comprehensive middleware
+- **AI Service**: Multi-model integration with automatic fallback
+- **File Service**: PDF processing with OCR cleanup and validation
+- **Configuration**: Environment-based settings with security validation
+
+#### Frontend Application  
+- **Responsive Interface**: Modern CSS Grid/Flexbox layout
+- **File Processing**: Drag-and-drop with real-time validation
+- **State Management**: Clean separation of UI and application logic
+- **Progressive Enhancement**: Functional without JavaScript
+
+#### Infrastructure
+- **Docker Containerization**: Production-ready with security hardening
+- **Health Monitoring**: Automated health checks and logging
+- **Load Balancing**: Nginx reverse proxy configuration
+- **Caching**: Redis integration for performance optimization
+
+## Project Structure
 
 ```
 SumX/
 ├── src/
 │   ├── client/                    # Frontend application
-│   │   ├── index.html            # Main application interface
-│   │   └── assets/
-│   │       ├── css/
-│   │       │   └── style.css     # Application styling
-│   │       └── js/
-│   │           └── script.js     # Client-side logic
-│   └── server/                   # Backend application
-│       ├── app.js               # Main application server
-│       ├── config/              # Configuration files
-│       │   ├── app.js          # Application settings
-│       │   ├── ai.js           # AI service configuration
-│       │   └── database.js     # Database configuration
-│       ├── services/           # Business logic services
-│       │   ├── aiService.js    # AI analysis service
-│       │   └── fileService.js  # File processing service
-│       ├── routes/             # API route handlers
-│       │   ├── analysis.js     # Analysis endpoints
-│       │   └── health.js       # Health check endpoints
-│       └── middleware/         # Express middleware
-│           ├── errorHandler.js # Error handling
-│           └── upload.js       # File upload handling
-├── tests/                      # Test suites
-│   ├── unit/                  # Unit tests
-│   ├── integration/           # Integration tests
-│   └── setup.js              # Test configuration
-├── docs/                      # Documentation
-│   ├── API.md                # API documentation
-│   └── DEPLOYMENT.md         # Deployment guide
-├── config/                    # External configurations
-├── scripts/                   # Utility scripts
-│   └── setup.sh             # Development setup
-├── package.json              # Dependencies and scripts
-├── .env.example             # Environment template
-├── jest.config.js           # Test configuration
-├── .eslintrc.js            # Code style configuration
-└── README.md               # This file
+│   │   ├── index.html            # Main interface
+│   │   └── assets/               # Static resources
+│   │       ├── css/style.css     # Application styles
+│   │       └── js/script.js      # Client logic
+│   └── server/                   # Backend services
+│       ├── app.js               # Express application
+│       ├── config/              # Configuration management
+│       ├── services/            # Business logic
+│       │   ├── aiService.js     # AI integration
+│       │   └── fileService.js   # File processing
+│       ├── routes/              # API endpoints
+│       └── middleware/          # Express middleware
+├── tests/                       # Test suites
+│   ├── unit/                   # Unit tests
+│   └── integration/            # Integration tests
+├── docs/                       # Documentation
+│   ├── API.md                 # API reference
+│   └── DOCKER.md             # Container guide
+├── scripts/                    # Automation scripts
+│   ├── deploy.sh             # Production deployment
+│   └── health-check.js       # Health monitoring
+├── Dockerfile                  # Container configuration
+├── docker-compose.yml         # Orchestration config
+├── package.json               # Project metadata
+└── .env.example              # Environment template
 ```
 
-## 🔬 Technical Details
-
-### API Endpoints
-
-#### POST /summarize
-Analyzes research paper content and returns structured summary.
-
-**Request Body:**
-```json
-{
-  "paperContent": "string (required)",
-  "language": "string (optional, default: English)"
-}
-```
-
-**Response:**
-```json
-{
-  "summary": "string (markdown formatted)"
-}
-```
+## Configuration
 
 ### Environment Variables
 
-| Variable | Description | Required |
-|----------|-------------|----------|
-| `OPENROUTER_API_KEY` | OpenRouter API key for AI model access | Yes |
+| Variable | Description | Default | Required |
+|----------|-------------|---------|----------|
+| `OPENROUTER_API_KEY` | OpenRouter API authentication key | - | Yes |
+| `NODE_ENV` | Application environment | `development` | No |
+| `PORT` | Server port number | `3000` | No |
+| `CORS_ORIGIN` | Allowed CORS origins | `*` | No |
 
-### Content Processing Features
+### API Response Format
 
-- **OCR Text Cleaning**: Handles poorly extracted text from PDFs
-- **Format Normalization**: Standardizes various input formats
-- **Content Validation**: Ensures sufficient content for analysis
-- **Language Detection**: Automatic source language identification
+All API endpoints return consistent JSON responses:
 
-## 🛠️ Development
+```json
+{
+  "success": boolean,
+  "data": object | null,
+  "error": string | null,
+  "timestamp": "ISO 8601 string"
+}
+```
 
-### Local Development
+### Supported AI Models
+
+| Model | Provider | Purpose | Fallback Order |
+|-------|----------|---------|----------------|
+| `meta-llama/llama-3.2-3b-instruct` | Meta | Primary analysis | 1st |
+| `mistralai/mistral-7b-instruct` | Mistral AI | Backup analysis | 2nd |
+| `microsoft/phi-3-mini-128k-instruct` | Microsoft | Final fallback | 3rd |
+
+## Development
+
+### Setup Development Environment
+
 ```bash
-# Quick setup
-./scripts/setup.sh
+# Clone repository
+git clone https://github.com/saky-semicolon/SumX.git
+cd SumX
 
-# Manual setup
+# Install dependencies
 npm install
+
+# Configure environment
 cp .env.example .env
-# Configure your .env file
+# Add your OPENROUTER_API_KEY to .env
 
-# Development server (with auto-reload)
+# Start development server
 npm run dev
-
-# Production server
-npm start
-
-# Run tests
-npm test
-
-# Linting
-npm run lint
 ```
 
-### Architecture Overview
+### Available Scripts
 
-#### Backend (Node.js/Express)
-- **Modular Design**: Service-oriented architecture with clear separation of concerns
-- **Configuration Management**: Environment-based configuration with validation
-- **Error Handling**: Comprehensive error middleware with proper HTTP status codes
-- **API Design**: RESTful endpoints with consistent response format
-- **File Processing**: Advanced PDF text extraction with OCR cleanup
-- **AI Integration**: Multi-model fallback system for reliability
+| Command | Description |
+|---------|-------------|
+| `npm start` | Start production server |
+| `npm run dev` | Start development server with hot-reload |
+| `npm test` | Run complete test suite |
+| `npm run test:unit` | Run unit tests only |
+| `npm run test:integration` | Run integration tests only |
+| `npm run lint` | Run ESLint code analysis |
+| `npm run lint:fix` | Fix automatically correctable lint issues |
 
-#### Frontend (Vanilla JavaScript)
-- **Modern UI**: Responsive design with CSS Grid/Flexbox
-- **Progressive Enhancement**: Works without JavaScript for basic functionality
-- **File Handling**: Drag-and-drop with real-time validation
-- **State Management**: Clean separation of UI and data logic
+### Docker Development
 
-#### Services Architecture
-```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   File Service  │    │   AI Service    │    │  Config Service │
-│                 │    │                 │    │                 │
-│ • PDF Extract   │    │ • Multi-model   │    │ • Environment   │
-│ • Text Clean    │    │ • Fallback      │    │ • Validation    │
-│ • Validation    │    │ • Analysis      │    │ • Security      │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-         │                       │                       │
-         └───────────────────────┼───────────────────────┘
-                                 │
-                    ┌─────────────────┐
-                    │  Express App    │
-                    │                 │
-                    │ • Routes        │
-                    │ • Middleware    │
-                    │ • Error Handle  │
-                    └─────────────────┘
-```
-
-### Testing Strategy
-
-#### Unit Tests
-- Service layer testing
-- Utility function validation
-- Configuration verification
-
-#### Integration Tests
-- API endpoint testing
-- File upload workflows
-- Error handling scenarios
-
-#### Test Commands
 ```bash
-# Run all tests
+# Development environment with hot-reload
+docker-compose -f docker-compose.dev.yml up
+
+# Production environment
+docker-compose up -d
+
+# View logs
+docker-compose logs -f
+
+# Health check
+curl http://localhost:3000/api/health
+```
+
+### Testing
+
+The project includes comprehensive test coverage:
+
+- **Unit Tests**: Service layer and utility functions
+- **Integration Tests**: API endpoints and workflows  
+- **Health Checks**: Automated system monitoring
+
+```bash
+# Run all tests with coverage
 npm test
 
-# Unit tests only
-npm run test:unit
+# Run specific test file
+npm test -- tests/unit/aiService.test.js
 
-# Integration tests only
-npm run test:integration
-
-# Watch mode (development)
+# Watch mode for development
 npm test -- --watch
 ```
 
-## 🤝 Contributing
+## Contributing
+
+### Development Process
 
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+2. Create feature branch: `git checkout -b feature-name`
+3. Make changes with tests
+4. Commit: `git commit -m 'Add feature'`
+5. Push: `git push origin feature-name`
+6. Submit pull request
 
-### Development Guidelines
+### Code Standards
 
-- Follow ES6+ JavaScript standards
-- Use semantic HTML and accessible design
-- Maintain consistent code formatting
-- Add comments for complex logic
-- Test with various paper formats
+- **JavaScript**: ES6+ with ESLint configuration
+- **Testing**: Jest for unit and integration tests
+- **Documentation**: JSDoc for functions and APIs
+- **Commits**: Conventional commit format preferred
 
-## 📝 License
+## License
 
-This project is licensed under the ISC License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
+## Support
 
-- **OpenRouter**: AI model API provider
-- **Meta AI & Mistral**: Advanced language model technology
-- **Research Community**: For inspiring better academic tools
-
-## � API Reference
-
-### Quick API Overview
-
-```bash
-# Health check
-curl http://localhost:3000/api/health
-
-# Analyze text
-curl -X POST http://localhost:3000/api/analyze/text \
-  -H "Content-Type: application/json" \
-  -d '{"paperContent": "Your research paper content here..."}'
-
-# Upload and analyze file
-curl -X POST http://localhost:3000/api/analyze/file \
-  -F "file=@research-paper.pdf"
-
-# Extract text only
-curl -X POST http://localhost:3000/api/extract \
-  -F "file=@research-paper.pdf"
-```
-
-**Full API Documentation**: [docs/API.md](./docs/API.md)
-
-## 🌐 Deployment
-
-### Quick Deploy Options
-
-#### Heroku
-```bash
-heroku create your-sumx-app
-heroku config:set OPENROUTER_API_KEY=your_key_here
-git push heroku main
-```
-
-#### Docker
-```bash
-docker build -t sumx .
-docker run -p 3000:3000 --env-file .env sumx
-```
-
-#### PM2 (Production)
-```bash
-npm install -g pm2
-pm2 start src/server/app.js --name "sumx"
-pm2 startup && pm2 save
-```
-
-**Full Deployment Guide**: [docs/DEPLOYMENT.md](./docs/DEPLOYMENT.md)
-
-## 📊 Performance & Scaling
-
-### Production Optimizations
-- **Clustering**: Multi-process support with PM2
-- **Caching**: Static asset caching with proper headers
-- **Compression**: Gzip compression for responses
-- **Memory Management**: Automatic restart on memory limits
-- **Load Balancing**: Nginx upstream configuration
-
-### Monitoring
-- Health check endpoint (`/api/health`)
-- PM2 process monitoring
-- Memory and CPU usage tracking
-- API response time monitoring
-
-## 🔒 Security Features
-
-- **Input Validation**: Comprehensive request validation
-- **File Security**: MIME type and extension verification
-- **Error Handling**: Secure error responses without information leakage
-- **CORS Configuration**: Configurable cross-origin policies
-- **Rate Limiting**: Configurable request rate limits (production)
-
-## 🔮 Roadmap & Future Enhancements
-
-### Completed ✅
-- [x] Professional architecture with modular design
-- [x] Comprehensive test suite with CI/CD ready structure
-- [x] Advanced PDF text extraction with OCR cleanup
-- [x] Multi-model AI fallback system for reliability
-- [x] Production-ready deployment configurations
-- [x] Extensive documentation and API reference
-
-### Planned Features 🔄
-- [ ] **Database Integration**: PostgreSQL/MongoDB support for document history
-- [ ] **User Authentication**: JWT-based user accounts and API keys  
-- [ ] **Batch Processing**: Multiple document analysis in parallel
-- [ ] **Citation Extraction**: Automatic reference and citation parsing
-- [ ] **Advanced Analytics**: Usage statistics and analysis insights
-- [ ] **Microsoft Word Support**: .docx file processing capability
-- [ ] **Academic Database Integration**: Direct PubMed, ArXiv connections
-- [ ] **Custom Templates**: Configurable analysis output formats
-- [ ] **Collaborative Features**: Team workspaces and shared analyses
-- [ ] **Mobile App**: React Native mobile application
-- [ ] **Browser Extension**: Chrome/Firefox extension for direct web analysis
-
-### Technical Improvements 🛠️
-- [ ] **Microservices**: Service mesh architecture for horizontal scaling
-- [ ] **Redis Caching**: In-memory caching for improved performance
-- [ ] **Queue System**: Background job processing with Bull/Agenda
-- [ ] **GraphQL API**: More efficient data fetching capabilities
-- [ ] **WebSocket Support**: Real-time analysis progress updates
-- [ ] **CDN Integration**: Global content delivery network support
+- **Documentation**: [docs/](./docs/) directory
+- **Issues**: [GitHub Issues](https://github.com/saky-semicolon/SumX/issues)
+- **API Reference**: [docs/API.md](./docs/API.md)
 
 ---
 
-**Built with ❤️ for researchers and students worldwide**
+**SumX** - Professional research paper analysis for the academic community.
 
-For support or questions, please open an issue on GitHub or contact the development team.
+For detailed information, see the [documentation](./docs/) directory.
+
+__Built with ❤️ by Saky__

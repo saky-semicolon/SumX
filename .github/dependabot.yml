@@ -1,0 +1,88 @@
+# ============================================================================
+# SumX Security Configuration
+# Dependabot automated dependency updates and security monitoring
+# ============================================================================
+
+version: 2
+updates:
+  # ============================================================================
+  # Package Dependencies
+  # ============================================================================
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "04:00"
+      timezone: "Etc/UTC"
+    
+    # Security updates
+    open-pull-requests-limit: 10
+    allow:
+      - dependency-type: "direct"
+      - dependency-type: "indirect"
+    
+    # Auto-merge configuration
+    target-branch: "main"
+    
+    # Commit message customization
+    commit-message:
+      prefix: "deps"
+      prefix-development: "deps-dev"
+      include: "scope"
+    
+    # Ignore specific packages if needed
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+    
+    # Grouping related updates
+    groups:
+      production-dependencies:
+        patterns:
+          - "express*"
+          - "multer*"
+          - "cors*"
+          - "helmet*"
+          - "compression*"
+          - "winston*"
+      
+      development-dependencies:
+        patterns:
+          - "jest*"
+          - "eslint*"
+          - "nodemon*"
+          - "@types/*"
+
+  # ============================================================================
+  # Docker Dependencies
+  # ============================================================================
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "04:00"
+      timezone: "Etc/UTC"
+    
+    open-pull-requests-limit: 5
+    
+    commit-message:
+      prefix: "docker"
+      include: "scope"
+
+  # ============================================================================
+  # GitHub Actions Dependencies
+  # ============================================================================
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "05:00"
+      timezone: "Etc/UTC"
+    
+    open-pull-requests-limit: 5
+    
+    commit-message:
+      prefix: "ci"
+      include: "scope"

@@ -1,0 +1,380 @@
+# ============================================================================
+# SumX Docker Registry CI/CD Pipeline
+# Automated Docker image building, testing, and publishing
+# ============================================================================
+
+name: Build and Push Docker Images
+
+on:
+  # Trigger on push to main branch
+  push:
+    branches: [ main ]
+    tags: [ 'v*' ]
+  
+  # Trigger on pull requests to main
+  pull_request:
+    branches: [ main ]
+  
+  # Allow manual workflow dispatch
+  workflow_dispatch:
+
+env:
+  # Docker image configuration
+  REGISTRY: docker.io
+  IMAGE_NAME: ${{ github.repository }}
+  
+  # Application configuration
+  NODE_VERSION: '18'
+  DOCKER_BUILDKIT: 1
+  COMPOSE_DOCKER_CLI_BUILD: 1
+
+jobs:
+  # ============================================================================
+  # Code Quality and Testing
+  # ============================================================================
+  test:
+    name: Code Quality & Testing
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: Setup Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Run ESLint
+      run: npm run lint
+    
+    - name: Run security audit
+      run: npm audit --audit-level moderate
+    
+    - name: Run unit tests
+      run: npm run test:unit
+      env:
+        NODE_ENV: test
+    
+    - name: Run integration tests
+      run: npm run test:integration
+      env:
+        NODE_ENV: test
+        OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY_TEST }}
+    
+    - name: Generate test coverage
+      run: npm test -- --coverage --watchAll=false
+      env:
+        NODE_ENV: test
+    
+    - name: Upload coverage reports
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./coverage/lcov.info
+        flags: unittests
+        name: codecov-umbrella
+
+  # ============================================================================
+  # Docker Image Security Scanning
+  # ============================================================================
+  security-scan:
+    name: Security Analysis
+    runs-on: ubuntu-latest
+    needs: test
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: Run Trivy vulnerability scanner (Filesystem)
+      uses: aquasecurity/trivy-action@master
+      with:
+        scan-type: 'fs'
+        scan-ref: '.'
+        format: 'sarif'
+        output: 'trivy-results.sarif'
+    
+    - name: Upload Trivy scan results to GitHub Security
+      uses: github/codeql-action/upload-sarif@v2
+      if: always()
+      with:
+        sarif_file: 'trivy-results.sarif'
+    
+    - name: Build Docker image for security scan
+      run: |
+        docker build \
+          --target production \
+          --tag sumx:security-scan \
+          --file Dockerfile \
+          .
+    
+    - name: Run Trivy vulnerability scanner (Docker image)
+      uses: aquasecurity/trivy-action@master
+      with:
+        image-ref: 'sumx:security-scan'
+        format: 'sarif'
+        output: 'trivy-docker-results.sarif'
+    
+    - name: Upload Docker scan results
+      uses: github/codeql-action/upload-sarif@v2
+      if: always()
+      with:
+        sarif_file: 'trivy-docker-results.sarif'
+
+  # ============================================================================
+  # Docker Build and Push
+  # ============================================================================
+  docker-build-push:
+    name: Build & Push Docker Images
+    runs-on: ubuntu-latest
+    needs: [test, security-scan]
+    
+    # Only run on main branch or tags
+    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v')
+    
+    permissions:
+      contents: read
+      packages: write
+      security-events: write
+    
+    outputs:
+      image-digest: ${{ steps.build.outputs.digest }}
+      image-tags: ${{ steps.meta.outputs.tags }}
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+      with:
+        driver-opts: |
+          network=host
+    
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Extract metadata
+      id: meta
+      uses: docker/metadata-action@v5
+      with:
+        images: |
+          ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          ghcr.io/${{ env.IMAGE_NAME }}
+        tags: |
+          type=ref,event=branch
+          type=ref,event=pr
+          type=semver,pattern={{version}}
+          type=semver,pattern={{major}}.{{minor}}
+          type=semver,pattern={{major}}
+          type=sha,prefix={{branch}}-
+          type=raw,value=latest,enable={{is_default_branch}}
+        labels: |
+          org.opencontainers.image.title=SumX Research Paper Analyzer
+          org.opencontainers.image.description=AI-powered scientific research paper analysis platform
+          org.opencontainers.image.vendor=Saky
+          org.opencontainers.image.licenses=MIT
+    
+    - name: Build and push Docker image
+      id: build
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        file: ./Dockerfile
+        target: production
+        platforms: linux/amd64,linux/arm64
+        push: true
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+        build-args: |
+          BUILD_DATE=${{ github.event.head_commit.timestamp }}
+          VCS_REF=${{ github.sha }}
+          VERSION=${{ steps.meta.outputs.version }}
+    
+    - name: Generate SBOM
+      uses: anchore/sbom-action@v0
+      with:
+        image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+        format: spdx-json
+        output-file: sbom.spdx.json
+    
+    - name: Upload SBOM
+      uses: actions/upload-artifact@v3
+      with:
+        name: sbom
+        path: sbom.spdx.json
+
+  # ============================================================================
+  # Docker Image Testing
+  # ============================================================================
+  docker-test:
+    name: Test Docker Image
+    runs-on: ubuntu-latest
+    needs: docker-build-push
+    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v')
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+    
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    
+    - name: Extract image tag
+      id: extract-tag
+      run: |
+        if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+          echo "IMAGE_TAG=latest" >> $GITHUB_OUTPUT
+        else
+          echo "IMAGE_TAG=${{ github.ref_name }}" >> $GITHUB_OUTPUT
+        fi
+    
+    - name: Test Docker image startup
+      run: |
+        # Start container
+        docker run -d \
+          --name sumx-test \
+          -p 3000:3000 \
+          -e NODE_ENV=production \
+          -e OPENROUTER_API_KEY=${{ secrets.OPENROUTER_API_KEY_TEST }} \
+          ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.extract-tag.outputs.IMAGE_TAG }}
+        
+        # Wait for container to be ready
+        echo "Waiting for container to start..."
+        sleep 30
+        
+        # Check container status
+        docker ps -a
+        docker logs sumx-test
+        
+        # Test health endpoint
+        echo "Testing health endpoint..."
+        for i in {1..10}; do
+          if curl -f http://localhost:3000/api/health; then
+            echo "✅ Health check passed"
+            break
+          fi
+          echo "Attempt $i failed, retrying in 5 seconds..."
+          sleep 5
+        done
+        
+        # Test API endpoints
+        echo "Testing API endpoints..."
+        curl -f http://localhost:3000/api/info
+        curl -f http://localhost:3000/api/analyze/models
+        
+        # Cleanup
+        docker stop sumx-test
+        docker rm sumx-test
+    
+    - name: Test with Docker Compose
+      run: |
+        # Create test environment
+        cat > .env.test << EOF
+        NODE_ENV=production
+        PORT=3000
+        OPENROUTER_API_KEY=${{ secrets.OPENROUTER_API_KEY_TEST }}
+        EOF
+        
+        # Start services
+        docker-compose -f docker-compose.yml --env-file .env.test up -d
+        
+        # Wait for services
+        sleep 30
+        
+        # Test application
+        curl -f http://localhost:3000/api/health
+        
+        # Check logs
+        docker-compose logs
+        
+        # Cleanup
+        docker-compose down
+        rm .env.test
+
+  # ============================================================================
+  # Deployment Notification
+  # ============================================================================
+  notify-deployment:
+    name: Deployment Notification
+    runs-on: ubuntu-latest
+    needs: [docker-build-push, docker-test]
+    if: always() && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v'))
+    
+    steps:
+    - name: Determine deployment status
+      id: status
+      run: |
+        if [[ "${{ needs.docker-build-push.result }}" == "success" && "${{ needs.docker-test.result }}" == "success" ]]; then
+          echo "STATUS=✅ Success" >> $GITHUB_OUTPUT
+          echo "COLOR=good" >> $GITHUB_OUTPUT
+        else
+          echo "STATUS=❌ Failed" >> $GITHUB_OUTPUT
+          echo "COLOR=danger" >> $GITHUB_OUTPUT
+        fi
+    
+    - name: Create deployment summary
+      run: |
+        echo "## 🚀 SumX Deployment Summary" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "**Status**: ${{ steps.status.outputs.STATUS }}" >> $GITHUB_STEP_SUMMARY
+        echo "**Branch**: ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+        echo "**Commit**: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+        echo "**Actor**: ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### Docker Images Published:" >> $GITHUB_STEP_SUMMARY
+        echo "- \`docker.io/${{ env.IMAGE_NAME }}:latest\`" >> $GITHUB_STEP_SUMMARY
+        echo "- \`ghcr.io/${{ env.IMAGE_NAME }}:latest\`" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### Quick Deploy:" >> $GITHUB_STEP_SUMMARY
+        echo "\`\`\`bash" >> $GITHUB_STEP_SUMMARY
+        echo "docker run -p 3000:3000 -e OPENROUTER_API_KEY=your_key docker.io/${{ env.IMAGE_NAME }}:latest" >> $GITHUB_STEP_SUMMARY
+        echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+
+  # ============================================================================
+  # Cleanup Old Images
+  # ============================================================================
+  cleanup:
+    name: Cleanup Old Images
+    runs-on: ubuntu-latest
+    needs: docker-test
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Delete old GitHub packages
+      uses: actions/delete-package-versions@v4
+      with:
+        package-name: sumx
+        package-type: container
+        min-versions-to-keep: 5
+        delete-only-untagged-versions: true
