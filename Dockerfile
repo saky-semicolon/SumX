@@ -6,7 +6,7 @@
 # ============================================================================
 # STAGE 1: Build Dependencies and Security Scanner
 # ============================================================================
-FROM node:18-alpine AS dependencies
+FROM node:24-alpine AS dependencies
 
 # Install security tools and build dependencies
 RUN apk add --no-cache \
@@ -38,7 +38,7 @@ RUN npm ci --only=production && \
 # ============================================================================
 # STAGE 2: Production Image
 # ============================================================================
-FROM node:18-alpine AS production
+FROM node:24-alpine AS production
 
 # Add metadata labels following OCI spec
 LABEL org.opencontainers.image.title="SumX Research Paper Analyzer"
