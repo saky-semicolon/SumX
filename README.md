@@ -150,7 +150,6 @@ SumX/
 │   └── integration/            # Integration tests
 ├── docs/                       # Documentation
 │   ├── API.md                 # API reference
-│   └── DOCKER.md             # Container guide
 ├── scripts/                    # Automation scripts
 │   ├── deploy.sh             # Production deployment
 │   └── health-check.js       # Health monitoring
