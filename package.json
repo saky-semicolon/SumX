@@ -50,7 +50,7 @@
     "pdf-parse": "^2.3.11"
   },
   "devDependencies": {
-    "eslint": "^8.57.1",
+    "eslint": "^9.37.0",
     "eslint-config-node": "^4.0.0",
     "jest": "^30.2.0",
     "nodemon": "^3.1.10",
