@@ -1,13 +1,23 @@
 # SumX
 
 **AI-Powered Research Paper Analysis Platform**
-
 A professional scientific research analysis platform that provides comprehensive evaluation of academic papers using advanced AI models. Features enterprise-grade architecture, evidence-based methodology assessment, and peer-review quality analysis.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org/)
 [![Docker](https://img.shields.io/badge/docker-supported-blue)](./docs/DOCKER.md)
 [![API Docs](https://img.shields.io/badge/API-Documentation-blue)](./docs/API.md)
+
+---
+### Data Extraction Customization
+
+SumX provides full flexibility for **data extraction customization** according to your specific use case.  
+You can easily modify the extraction behavior by customizing the **AI prompt** inside the following file:
+
+🔗 [src/server/services/aiService.js](https://github.com/saky-semicolon/SumX/blob/main/src/server/services/aiService.js)
+
+> ✨ Simply adjust the prompt logic to tailor how the model analyzes and extracts information from research papers — enabling domain-specific insights and structured outputs that best fit your project’s requirements and also **Your valuable feedback and suggestions are highly appreciated** — they help improve SumX and make it even better for the community!
+---
 
 ## Features
 
